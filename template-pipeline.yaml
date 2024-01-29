@@ -4,9 +4,6 @@ parameters:
   - name: buildType
     default: 'c'
 
-variables:
-  - group: Nexus
-
 stages:
 - ${{ if ne(parameters.skipChecks, false) }}:
     - stage: CheckRepository
