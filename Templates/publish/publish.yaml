@@ -6,3 +6,12 @@ steps:
       artifactName: 'libs'
     condition: succeeded()
     displayName: 'Publish Libs'
+
+  - download: current
+    artifact: libs
+    patterns: '**/*'
+
+  - bash: |
+        ls -lart
+        #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
+    displayName: 'Upload file to Nesus'
