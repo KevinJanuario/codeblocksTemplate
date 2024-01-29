@@ -9,11 +9,12 @@ parameters:
 stages:
 - ${{ if eq(parameters.enableSonar, true) }}:
     - stage: CheckRepository
-      jobs: Sonar
-      pool:
-        name: ${{ parameters.agentPool }}
-      steps:
-        - template: Templates/checks/sonar.yaml
+      jobs: 
+        - job: Sonar
+          pool:
+            name: ${{ parameters.agentPool }}
+          steps:
+            - template: Templates/checks/sonar.yaml
 
 - stage: BuildAndPush
   jobs:
