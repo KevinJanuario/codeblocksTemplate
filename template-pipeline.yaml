@@ -18,7 +18,9 @@ stages:
 
 - stage: BuildAndPush
   jobs:
-    - job:
+    - job: Build
+      pool:
+        name: Dev
       - template: Templates/build/checkout.yaml
         parameters:
           buildType: ${{ parameters.buildType }}
