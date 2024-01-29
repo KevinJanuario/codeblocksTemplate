@@ -1,11 +1,11 @@
 parameters:
-  - name: skipChecks
+  - name: enableSonar
     default: false
   - name: buildType
     default: 'c'
 
 stages:
-- ${{ if ne(parameters.skipChecks, false) }}:
+- ${{ if eq(parameters.enableSonar, true) }}:
     - stage: CheckRepository
       jobs:
         - template: Templates/checks/sonar.yaml
