@@ -3,18 +3,23 @@ parameters:
     default: false
   - name: buildType
     default: 'c'
+  - name: agentPool
+    default: Dev
 
 stages:
 - ${{ if eq(parameters.enableSonar, true) }}:
     - stage: CheckRepository
-      jobs:
+      jobs: Sonar
+      pool:
+        name: ${{ parameters.agentPool }}
+      steps:
         - template: Templates/checks/sonar.yaml
 
 - stage: BuildAndPush
   jobs:
     - job: Build
       pool:
-        name: Dev
+        name: ${{ parameters.agentPool }}
       steps:
         - template: Templates/build/checkout.yaml
           parameters:
