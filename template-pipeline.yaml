@@ -15,8 +15,9 @@ stages:
     - job: Build
       pool:
         name: Dev
-      - template: Templates/build/checkout.yaml
-        parameters:
-          buildType: ${{ parameters.buildType }}
-      - template: Templates/publish/publish.yaml
+      steps:
+        - template: Templates/build/checkout.yaml
+          parameters:
+            buildType: ${{ parameters.buildType }}
+        - template: Templates/publish/publish.yaml
 
