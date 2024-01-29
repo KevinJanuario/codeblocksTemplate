@@ -4,9 +4,6 @@ parameters:
   - name: buildType
     default: 'c'
 
-pool:
-  name: Dev
-
 variables:
   - group: Nexus
 
