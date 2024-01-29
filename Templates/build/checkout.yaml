@@ -1,0 +1,58 @@
+---
+parameters:
+  - name: buildType
+    default: 'c'
+
+steps:
+  - ${{ if eq(parameters.buildType, 'c') }}:
+      - bash: |
+            #!/bin/bash
+            GREEN="\e[1;32m"
+            DEFAULT="\e[0m"
+            RED="\033[31m"
+            BLUE="\e[1;36m"
+            CBP_PATH=$(find ./ -name C-Fontes -type d | head -1)
+            cd $CBP_PATH
+            CBP_FILE=$(ls *.cbp | head -1)
+            echo -e "${BLUE}###############################################"
+            echo -e "${GREEN}[+] Gerando makefile para compilação do $CBP_FILE..."
+            if cbp2make -in $CBP_FILE -out Makefile; then
+                    echo -e "${GREEN}[+] Makefile gerado com sucesso..."
+                    echo -e "${BLUE}###############################################"
+            else
+                    echo -e "${RED}[-] Falha ao gerar Makefile"
+                    echo -e "${BLUE}###############################################${DEFAULT}"
+                    exit 1
+            fi
+            sleep 2
+
+            echo -e "${GREEN}[+] Ajustando parametros do Makefile..."
+            sed -i 's/^CFLAGS =/CFLAGS = -std=c++11 -fpermissive/' Makefile
+            echo -e "${BLUE}###############################################"
+
+            echo -e "${GREEN}[+] Realizando compilação..."
+            make clean && make so_x86
+
+            mkdir artifact
+            cp -r bin/Linux/Release/x86/ artifact/
+            sed -i -e 's/m32/m64/g' -e 's/CFLAGS =/CFLAGS = -fPIC /' Makefile
+            make clean_so_x86 && make so_x64 || exit 1
+            cp -r bin/Linux/Release/x64/ artifact/
+            make clean
+            echo -e "${BLUE}###############################################"
+
+            for ar in x86 x64 ; do
+              if ! type artifact/$ar/* >/dev/null; then
+                echo -e "${RED}[-] Falha ao realizar compilação em $ar!"
+                echo -e "${BLUE}###############################################${DEFAULT}"
+                exit 1
+              else
+                echo -e "${GREEN}[+] Compilação realizada com sucesso - $ar!"
+                ls -1 artifact/$ar
+                echo -e "${BLUE}###############################################${DEFAULT}"
+              fi
+            done
+            echo -e "${BLUE}#################### FIM ###########################${DEFAULT}"
+            artifactPath="$PWD/artifact"
+            echo "##vso[task.setvariable variable=Artifact]$artifactPath"
+        displayName: BuildCpp

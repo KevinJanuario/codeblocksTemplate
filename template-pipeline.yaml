@@ -1,0 +1,26 @@
+parameters:
+  - name: skipChecks
+    default: false
+  - name: buildType
+    default: 'c'
+
+pool:
+  name: Dev
+
+variables:
+  - group: Nexus
+
+stages:
+- ${{ if ne(parameters.skipChecks, false) }}:
+    - stage: CheckRepository
+      jobs:
+        - template: Templates/checks/sonar.yaml
+
+- stage: BuildAndPush
+  jobs:
+    - job:
+      - template: Templates/build/checkout.yaml
+        parameters:
+          buildType: ${{ parameters.buildType }}
+      - template: Templates/publish/publish.yaml
+

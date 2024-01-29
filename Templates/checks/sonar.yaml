@@ -1,0 +1,14 @@
+---
+steps:
+  - task: SonarQubePrepare@5
+    displayName: 'Sonar - Analysis Configuration'
+    inputs:
+      SonarQube: 'SonarQube'
+      scannerMode: 'MSBuild'
+      projectKey: '$(Build.Repository.Name)'
+
+  - task: SonarQubeAnalyze@5
+    displayName: 'Sonar - Code Analysis'
+    inputs:
+      jdkversion: 'JAVA_HOME'
+
