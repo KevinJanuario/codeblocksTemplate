@@ -6,13 +6,12 @@ parameters:
     default: 'perto-c'
 
 steps:
-  - ${{ if eq(parameters.buildType, 'c') }}:
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathToPublish: '$(Artifact)'
-          artifactName: 'artifact-${{ parameters.buildType }}'
-        condition: succeeded()
-        displayName: 'Publish Artifacts'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Artifact)'
+      artifactName: 'artifact-${{ parameters.buildType }}'
+    condition: succeeded()
+    displayName: 'Publish Artifacts'
 
 
   - bash: |
@@ -29,3 +28,4 @@ steps:
        done
         #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
     displayName: 'Upload file to Nexus'
+    condition: succeeded()

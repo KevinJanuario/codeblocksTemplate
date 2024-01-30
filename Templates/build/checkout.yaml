@@ -67,4 +67,20 @@ steps:
             mv artifact/ $artifactPath/
             artifactPath="$artifactPath/artifact"
             echo "##vso[task.setvariable variable=Artifact]$artifactPath"
-        displayName: BuildCpp
+        displayName: 'C Build'
+
+  - ${{ if eq(parameters.buildType, 'c') }}:
+      - bash: |
+            artifactPath="/tmp/$(Build.BuildId)-${{ parameters.buildType }}"
+            echo "[+] Criando diretorio $artifactPath"
+            mkdir $artifactPath
+            echo "##vso[task.setvariable variable=Artifact]$artifactPath"
+        displayName: CreateOutputDir
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Dotnet Build'
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          modifyOutputPath: true
+          arguments: '--output $(Artifact)'
