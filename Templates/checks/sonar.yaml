@@ -1,4 +1,7 @@
 ---
+parameters:
+  - name: buildType
+
 steps:
   - task: SonarQubePrepare@5
     displayName: 'Sonar - Analysis Configuration'

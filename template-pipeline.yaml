@@ -17,6 +17,8 @@ stages:
             name: ${{ parameters.agentPool }}
           steps:
             - template: Templates/checks/sonar.yaml
+              parameters:
+                buildType: ${{ parameters.buildType }}
 
 - stage: BuildAndPush_${{ parameters.buildType }}
   jobs:
