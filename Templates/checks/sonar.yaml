@@ -11,9 +11,9 @@ steps:
           SonarQube: 'SonarQube'
           scannerMode: 'CLI'
           configMode: 'manual'
+          cliProjectKey: $(Build.Repository.Name)
           extraProperties: |
             sonar.exclusions=**/*.bin
-            sonar.projectKey=$(Build.Repository.Name)
 
   - ${{ if eq(parameters.buildType, 'dotnet') }}:
       - task: SonarQubePrepare@5
