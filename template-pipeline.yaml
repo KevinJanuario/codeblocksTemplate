@@ -7,8 +7,12 @@ parameters:
     default: false
   - name: buildType
     default: 'c'
+  - name: buildType_W
+    default: 'c_windows'
   - name: agentPool
     default: Dev
+  - name: agentPool_Win
+    default: Teste
   - name: sourcePath
     default: '.'
   - name: dotNetProjects
@@ -54,3 +58,15 @@ stages:
           parameters:
             buildType: ${{ parameters.buildType }}
 
+- stage: BuildAndPush_${{ parameters.buildType_W }}
+  jobs:
+    - job: Build_${{ parameters.buildType_W }}
+      pool:
+        name: ${{ parameters.agentPool_Win }}
+      steps:
+      - template: Templates/build/checkout.yaml
+        parameters:
+          buildType_W: ${{ parameters.buildType_W }}
+      - template: Templates/publish/publish.yaml
+          parameters:
+            buildType: ${{ parameters.buildType }}
