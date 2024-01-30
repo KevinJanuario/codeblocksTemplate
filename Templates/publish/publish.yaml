@@ -1,15 +1,20 @@
 ---
-steps:
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathToPublish: '$(Artifact)'
-      artifactName: 'libs'
-    condition: succeeded()
-    displayName: 'Publish Libs'
+parameters:
+  - name: buildType
+    default: 'c'
 
-  - download: current
-    artifact: libs
-    patterns: '**/*'
+steps:
+  - ${{ if eq(parameters.buildType, 'c') }}:
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Artifact)'
+          artifactName: 'artifact-${{ parameters.buildType }}'
+        condition: succeeded()
+        displayName: 'Publish Artifacts'
+
+      - download: current
+        artifact: artifact-${{ parameters.buildType }}
+        patterns: '**/*'
 
   - bash: |
         ls -lart

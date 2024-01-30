@@ -2,6 +2,8 @@
 parameters:
   - name: buildType
     default: 'c'
+  - name: sourcePath
+    default: '.'
 
 steps:
   - ${{ if eq(parameters.buildType, 'c') }}:
@@ -11,8 +13,15 @@ steps:
             DEFAULT="\e[0m"
             RED="\033[31m"
             BLUE="\e[1;36m"
-            CBP_PATH=$(find ./ -name C-Fontes -type d | head -1)
-            cd $CBP_PATH
+            if [[ ${{ parameters.sourcePath }} == '.' ]] ; then
+                echo -e "${GREEN} [+] Path: ${{ parameters.sourcePath }}"
+                CBP_PATH=$(find ./ -name C-Fontes -type d | head -1)
+                cd $CBP_PATH
+            else
+                  echo -e "${GREEN} [+] Path: ${{ parameters.sourcePath }}"
+                  cd ${{ parameters.sourcePath }}
+            fi
+
             CBP_FILE=$(ls *.cbp | head -1)
             echo -e "${BLUE}###############################################"
             echo -e "${GREEN}[+] Gerando makefile para compilação do $CBP_FILE..."

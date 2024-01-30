@@ -5,25 +5,28 @@ parameters:
     default: 'c'
   - name: agentPool
     default: Dev
+  - name: sourcePath
+    default: '.'
 
 stages:
 - ${{ if eq(parameters.enableSonar, true) }}:
-    - stage: CheckRepository
+    - stage: CheckRepository-${{ parameters.buildType }}
       jobs: 
-        - job: Sonar
+        - job: Sonar-${{ parameters.buildType }}
           pool:
             name: ${{ parameters.agentPool }}
           steps:
             - template: Templates/checks/sonar.yaml
 
-- stage: BuildAndPush
+- stage: BuildAndPush-${{ parameters.buildType }}
   jobs:
-    - job: Build
+    - job: Build-${{ parameters.buildType }}
       pool:
         name: ${{ parameters.agentPool }}
       steps:
         - template: Templates/build/checkout.yaml
           parameters:
             buildType: ${{ parameters.buildType }}
+            sourcePath: ${{ parameters.sourcePath }}
         - template: Templates/publish/publish.yaml
 
