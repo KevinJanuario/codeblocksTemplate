@@ -2,8 +2,8 @@
 steps:
   - script: |
         sudo docker run \
-        -v "$(Build.SourcesDirectory)/${{ parameters.monorepo_path }}:/app:cached" \
-        -v "$(Build.ArtifactStagingDirectory):/reports:cached" \
+        -v "$(Build.SourcesDirectory)/${{ parameters.monorepo_path }}:/app" \
+        -v "$(Build.ArtifactStagingDirectory):/reports" \
         shiftleft/sast-scan scan --src /app \
         --out_dir /reports/CodeAnalysisLogs
     displayName: "SlScan code scanner"
