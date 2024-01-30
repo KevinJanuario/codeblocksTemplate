@@ -7,8 +7,6 @@ parameters:
     default: Dev
   - name: sourcePath
     default: '.'
-  - name: publishRepo
-    default: 'perto-c'
 
 stages:
 - ${{ if eq(parameters.enableSonar, true) }}:
@@ -31,4 +29,6 @@ stages:
             buildType: ${{ parameters.buildType }}
             sourcePath: ${{ parameters.sourcePath }}
         - template: Templates/publish/publish.yaml
+          parameters:
+            buildType: ${{ parameters.buildType }}
 
