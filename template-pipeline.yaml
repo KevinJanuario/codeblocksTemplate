@@ -24,7 +24,11 @@ stages:
               parameters:
                 buildType: ${{ parameters.buildType }}
                 dotNetProjects: ${{ parameters.dotNetProjects }}
-            - ${{ if eq(parameters.enableGitleaks, true) }}:
+        - ${{ if eq(parameters.enableGitleaks, true) }}:
+            - job: Gitleaks_${{ parameters.buildType }}
+              pool:
+                name: ${{ parameters.agentPool }}
+              steps:
                 - template: Templates/checks/gitleaks.yaml
 
 - stage: BuildAndPush_${{ parameters.buildType }}
