@@ -3,13 +3,22 @@ parameters:
   - name: buildType
 
 steps:
-  - task: SonarQubePrepare@5
-    displayName: 'Sonar - Analysis Configuration'
-    inputs:
-      SonarQube: 'SonarQube'
-      scannerMode: 'MSBuild'
-      projectKey: '$(Build.Repository.Name)'
+  - ${{ if eq(parameters.buildType, 'c') }}:
+      - task: SonarQubePrepare@5
+        displayName: 'Sonar - Analysis Configuration'
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'CLI'
+          configMode: 'file'
+          projectKey: '$(Build.Repository.Name)'
+
   - ${{ if eq(parameters.buildType, 'dotnet') }}:
+      - task: SonarQubePrepare@5
+        displayName: 'Sonar - Analysis Configuration'
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          projectKey: '$(Build.Repository.Name)'
       - task: DotNetCoreCLI@2
         displayName: 'Sonar Dotnet Build'
         inputs:
