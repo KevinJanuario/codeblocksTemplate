@@ -3,7 +3,7 @@ parameters:
   - name: buildType
     default: 'c'
   - name: publishRepo
-    default: 'perto-c'
+    default: 'perto-${{ parameters.buildType }}'
 
 steps:
   - task: PublishBuildArtifacts@1
