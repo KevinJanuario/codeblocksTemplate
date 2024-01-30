@@ -3,6 +3,8 @@ parameters:
     default: true
   - name: enableGitLeaks
     default: true
+  - name: enableCodeScan
+    default: false
   - name: buildType
     default: 'c'
   - name: agentPool
@@ -30,6 +32,12 @@ stages:
                 name: ${{ parameters.agentPool }}
               steps:
                 - template: Templates/checks/gitleaks.yaml
+        - ${{ if eq(parameters.enableCodeScan, true) }}:
+            - job: CodeScan_${{ parameters.buildType }}
+              pool:
+                name: ${{ parameters.agentPool }}
+              steps:
+                - template: Templates/checks/slscan.yaml
 
 - stage: BuildAndPush_${{ parameters.buildType }}
   jobs:

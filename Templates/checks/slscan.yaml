@@ -1,0 +1,20 @@
+---
+steps:
+  - script: |
+        docker run \
+        -v "$(Build.SourcesDirectory)/${{ parameters.monorepo_path }}:/app:cached" \
+        -v "$(Build.ArtifactStagingDirectory):/reports:cached" \
+        shiftleft/sast-scan scan --src /app \
+        --out_dir /reports/CodeAnalysisLogs
+    displayName: "SlScan code scanner"
+    condition: succeeded()
+    continueOnError: false
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish analysis logs"
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: "$(Build.ArtifactStagingDirectory)/CodeAnalysisLogs"
+      ArtifactName: "slScanLogs"
+      publishLocation: "Container"
+
