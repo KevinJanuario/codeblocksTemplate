@@ -2,6 +2,8 @@
 parameters:
   - name: buildType
     default: 'c'
+  - name: publishRepo
+    default: 'perto-c'
 
 steps:
   - ${{ if eq(parameters.buildType, 'c') }}:
@@ -14,6 +16,14 @@ steps:
 
 
   - bash: |
-        ls -lart $(Artifact)
+       art=$(Artifact)
+       for artifact in $(find $art -type f) ; do
+       upload="${artifact#*artifact/}"
+       if curl -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nesusHost)/repository/${{ parameters.publishRepo }}/$upload" | grep 201 ; then
+          echo "  - $artifact Publicado com sucesso!"
+       else
+          echo "  [-] Falha ao publicar - $artifact"
+       fi
+       done
         #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
     displayName: 'Upload file to Nesus'
