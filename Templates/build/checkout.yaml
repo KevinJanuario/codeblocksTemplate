@@ -87,11 +87,11 @@ steps:
           modifyOutputPath: true
           arguments: '--output $(Artifact)-temp'
 
-  - task: ArchiveFiles@2
-    displayName: 'Zip Repository Content'
-    inputs:
-      rootFolderOrFile: '$(Artifact)-temp'
-      includeRootFolder: false
-      archiveType: 'zip'
-      archiveFile: '$(Artifact)/$(Build.Repository.Name).zip'
-      replaceExistingArchive: true
+      - task: ArchiveFiles@2
+        displayName: 'Zip Repository Content'
+        inputs:
+          rootFolderOrFile: '$(Artifact)-temp'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Artifact)/$(Build.Repository.Name).zip'
+          replaceExistingArchive: true
