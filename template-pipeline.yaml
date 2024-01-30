@@ -67,6 +67,3 @@ stages:
       - template: Templates/build/checkout.yaml
         parameters:
           buildType_W: ${{ parameters.buildType_W }}
-      - template: Templates/publish/publish.yaml
-          parameters:
-            buildType: ${{ parameters.buildType }}
