@@ -1,6 +1,6 @@
 parameters:
   - name: enableSonar
-    default: false
+    default: true
   - name: buildType
     default: 'c'
   - name: agentPool
