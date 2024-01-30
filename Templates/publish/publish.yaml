@@ -1,7 +1,6 @@
 ---
 parameters:
   - name: buildType
-    default: 'c'
 
 steps:
   - task: PublishBuildArtifacts@1
@@ -11,17 +10,18 @@ steps:
     condition: succeeded()
     displayName: 'Publish Artifacts'
 
-
   - bash: |
        set -e
        repo=perto-${{ parameters.buildType }}
        art=$(Artifact)
+       
+
        for artifact in $(find $art -type f) ; do
        upload="${artifact#*artifact/}"
        if curl -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
-          echo "  - $artifact Publicado com sucesso!"
+          echo "  - $artifact Publicado com sucesso no repositorio $repo!"
        else
-          echo "  [-] Falha ao publicar - $artifact"
+          echo "  [-] Falha ao publicar no repositorio $repo - $artifact"
           exit 1
        fi
        done
