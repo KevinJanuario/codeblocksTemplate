@@ -1,0 +1,11 @@
+---
+steps:
+  - bash: |
+        if ! type gitleaks ; then
+            echo "[+] Instalando o gitleaks..."
+            wget https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/gitleaks-linux-amd64 -O /usr/local/bin/gitleaks
+            chmod +x /usr/local/bin/gitleaks
+         fi
+         echo "[+] Iniciando scanner do repositorio..."
+         /usr/local/bin/gitleaks detect --format=json
+    displayName: 'Gitleaks check'

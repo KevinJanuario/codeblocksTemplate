@@ -1,6 +1,8 @@
 parameters:
   - name: enableSonar
     default: true
+  - name: enableGitLeaks
+    default: true
   - name: buildType
     default: 'c'
   - name: agentPool
@@ -22,6 +24,8 @@ stages:
               parameters:
                 buildType: ${{ parameters.buildType }}
                 dotNetProjects: ${{ parameters.dotNetProjects }}
+            - ${{ if eq(parameters.enableGitleaks, true) }}:
+                - template: Templates/checks/gitleaks.yaml
 
 - stage: BuildAndPush_${{ parameters.buildType }}
   jobs:
