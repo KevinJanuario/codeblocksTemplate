@@ -4,6 +4,7 @@ parameters:
     default: 'c'
   - name: sourcePath
     default: '.'
+  - name: dotNetProjects
 
 steps:
   - ${{ if eq(parameters.buildType, 'c') }}:
@@ -83,7 +84,7 @@ steps:
         displayName: 'Dotnet Build'
         inputs:
           command: 'build'
-          projects: '**/*.csproj'
+          projects: '**/*.${{ parameters.dotNetProjects }}'
           modifyOutputPath: true
           arguments: '--output $(Artifact)-temp'
 

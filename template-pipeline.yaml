@@ -7,6 +7,8 @@ parameters:
     default: Dev
   - name: sourcePath
     default: '.'
+  - name: dotNetProjects
+    default: 'csproj'
 
 stages:
 - ${{ if eq(parameters.enableSonar, true) }}:
@@ -19,6 +21,7 @@ stages:
             - template: Templates/checks/sonar.yaml
               parameters:
                 buildType: ${{ parameters.buildType }}
+                dotNetProjects: ${{ parameters.dotNetProjects }}
 
 - stage: BuildAndPush_${{ parameters.buildType }}
   jobs:
@@ -30,6 +33,7 @@ stages:
           parameters:
             buildType: ${{ parameters.buildType }}
             sourcePath: ${{ parameters.sourcePath }}
+            dotNetProjects: ${{ parameters.dotNetProjects }}
         - template: Templates/publish/publish.yaml
           parameters:
             buildType: ${{ parameters.buildType }}

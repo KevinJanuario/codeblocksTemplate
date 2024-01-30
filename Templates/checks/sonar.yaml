@@ -1,6 +1,7 @@
 ---
 parameters:
   - name: buildType
+  - name: dotNetProjects
 
 steps:
   - ${{ if eq(parameters.buildType, 'c') }}:
@@ -23,7 +24,7 @@ steps:
         displayName: 'Sonar Dotnet Build'
         inputs:
           command: 'build'
-          projects: '**/*.csproj'
+          projects: '**/*.${{ parameters.dotNetProjects '
           modifyOutputPath: true
           arguments: '--output $(Build.ArtifactStagingDirectory)'
 
