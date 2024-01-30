@@ -93,5 +93,5 @@ steps:
           rootFolderOrFile: '$(Artifact)-temp'
           includeRootFolder: false
           archiveType: 'zip'
-          archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name).zip'
+          archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name)-$(Build.BuildId).zip'
           replaceExistingArchive: true
