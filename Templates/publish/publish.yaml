@@ -12,11 +12,8 @@ steps:
         condition: succeeded()
         displayName: 'Publish Artifacts'
 
-      - download: current
-        artifact: artifact-${{ parameters.buildType }}
-        patterns: '**/*'
 
   - bash: |
-        ls -lart
+        ls -lart $(Artifact)
         #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
     displayName: 'Upload file to Nesus'
