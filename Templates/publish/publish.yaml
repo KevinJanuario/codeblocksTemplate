@@ -16,6 +16,7 @@ steps:
 
 
   - bash: |
+       set -e
        art=$(Artifact)
        for artifact in $(find $art -type f) ; do
        upload="${artifact#*artifact/}"
@@ -23,6 +24,7 @@ steps:
           echo "  - $artifact Publicado com sucesso!"
        else
           echo "  [-] Falha ao publicar - $artifact"
+          exit 1
        fi
        done
         #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
