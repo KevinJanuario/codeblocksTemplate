@@ -6,6 +6,14 @@ steps:
       SonarQube: 'SonarQube'
       scannerMode: 'MSBuild'
       projectKey: '$(Build.Repository.Name)'
+  - ${{ if eq(parameters.buildType, 'dotnet') }}:
+      - task: DotNetCoreCLI@2
+        displayName: 'Sonar Dotnet Build'
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          modifyOutputPath: true
+          arguments: '--output $(Build.ArtifactStagingDirectory)'
 
   - task: SonarQubeAnalyze@5
     displayName: 'Sonar - Code Analysis'
