@@ -24,7 +24,7 @@ steps:
         displayName: 'Sonar Dotnet Build'
         inputs:
           command: 'build'
-          projects: '**/*.${{ parameters.dotNetProjects '
+          projects: '**/*.${{ parameters.dotNetProjects }}'
           modifyOutputPath: true
           arguments: '--output $(Build.ArtifactStagingDirectory)'
 
