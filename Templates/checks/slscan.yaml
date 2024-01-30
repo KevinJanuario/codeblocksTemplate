@@ -1,7 +1,7 @@
 ---
 steps:
   - script: |
-        docker run \
+        sudo docker run \
         -v "$(Build.SourcesDirectory)/${{ parameters.monorepo_path }}:/app:cached" \
         -v "$(Build.ArtifactStagingDirectory):/reports:cached" \
         shiftleft/sast-scan scan --src /app \
