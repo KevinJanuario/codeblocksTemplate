@@ -17,13 +17,14 @@ steps:
        
 
        for artifact in $(find $art -type f) ; do
-       upload="${artifact#*artifact/}"
-       if curl -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
-          echo "  - $artifact Publicado com sucesso no repositorio $repo!"
-       else
-          echo "  [-] Falha ao publicar no repositorio $repo - $artifact"
-          exit 1
-       fi
+         upload="${artifact#*artifact/}"
+         echo "[+] File: $upload"
+         if curl -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
+            echo "  - $artifact Publicado com sucesso no repositorio $repo!"
+         else
+            echo "  [-] Falha ao publicar no repositorio $repo - $artifact"
+            exit 1
+         fi
        done
         #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
     displayName: 'Upload file to Nexus'
