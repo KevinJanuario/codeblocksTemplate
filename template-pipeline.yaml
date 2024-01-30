@@ -7,6 +7,8 @@ parameters:
     default: Dev
   - name: sourcePath
     default: '.'
+  - name: publishRepo
+    default: 'perto-c'
 
 stages:
 - ${{ if eq(parameters.enableSonar, true) }}:
