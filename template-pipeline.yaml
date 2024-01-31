@@ -63,8 +63,6 @@ stages:
 - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
   jobs:
     - job: Build_${{ parameters.buildTypeWindows }}
-      pool:
-        name: ${{ parameters.agentPoolWin }}
       steps:
       - template: Templates/build/checkoutWin.yaml
         parameters:

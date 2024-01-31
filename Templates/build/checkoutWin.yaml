@@ -4,8 +4,10 @@ parameters:
     default: 'c_windows'
   - name: versionDll
     default: '64'
+pool:
+  - name: Default
 
-steps:
+stages:
   - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
       - pwsh: |
             param (
