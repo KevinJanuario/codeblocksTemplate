@@ -4,8 +4,8 @@ parameters:
     default: 'c'
   - name: buildType_W
     default: 'c_windows'
-  - name: Version
-    default: 64
+  - name: versionDll
+    default: '64'
   - name: sourcePath
     default: '.'
   - name: dotNetProjects
