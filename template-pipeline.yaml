@@ -7,11 +7,11 @@ parameters:
     default: false
   - name: buildType
     default: 'c'
-  - name: buildType_W
+  - name: buildTypeWindows
     default: 'c_windows'
   - name: agentPool
     default: Dev
-  - name: agentPool_Win
+  - name: agentPoolWin
     default: Default
   - name: versionDll
     default: '64'
@@ -60,13 +60,13 @@ stages:
           parameters:
             buildType: ${{ parameters.buildType }}
 
-- stage: BuildAndPush_Windows${{ parameters.buildType_W }}
+- stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
   jobs:
-    - job: Build_${{ parameters.buildType_W }}
+    - job: Build_${{ parameters.buildTypeWindows }}
       pool:
-        name: ${{ parameters.agentPool_Win }}
+        name: ${{ parameters.agentPoolWin }}
       steps:
       - template: Templates/build/checkout.yaml
         parameters:
-          buildType_W: ${{ parameters.buildType_W }}
+          buildTypeWindows: ${{ parameters.buildTypeWindows }}
           versionDll: ${{ parameters.versionDll }}
