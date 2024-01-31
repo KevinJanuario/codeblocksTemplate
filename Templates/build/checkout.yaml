@@ -48,6 +48,11 @@ steps:
             mkdir artifact
             cp -r bin/Linux/Release/x86/ artifact/
             sed -i -e 's/m32/m64/g' -e 's/CFLAGS =/CFLAGS = -fPIC /' Makefile
+            #Remove referencias a libs de Windows
+            sed -i -e 's#$(OBJDIR_SO_X86)/Resource.o##g' -e 's#$(OBJDIR_SO_X86_DEBUG)/Resource.o##g' -e 's#$(OBJDIR_SO_X64)/Resource.o##g' Makefile
+            #Remove build Wondows nessa etapa
+            sed -i '/Resource.rc/d' Makefile 
+
             make clean_so_x86 && make so_x64 || exit 1
             cp -r bin/Linux/Release/x64/ artifact/
             make clean
