@@ -13,7 +13,7 @@ parameters:
     default: Dev
   - name: agentPool_Win
     default: Default
-  - name: version_dll
+  - name: Version
     default: 64
   - name: sourcePath
     default: '.'
@@ -69,4 +69,4 @@ stages:
       - template: Templates/build/checkout.yaml
         parameters:
           buildType_W: ${{ parameters.buildType_W }}
-          version_dll: ${{ parameters.version_dll }}
+          Version: ${{ parameters.Version }}
