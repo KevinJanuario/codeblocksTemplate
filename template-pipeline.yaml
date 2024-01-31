@@ -58,12 +58,12 @@ stages:
           parameters:
             buildType: ${{ parameters.buildType }}
 
-- stage: BuildAndPush_${{ parameters.buildType_W }}
-  jobs:
-    - job: Build_${{ parameters.buildType_W }}
-      pool:
-        name: ${{ parameters.agentPool_Win }}
-      steps:
-      - template: Templates/build/checkout.yaml
-        parameters:
-          buildType_W: ${{ parameters.buildType_W }}
+#- stage: BuildAndPush_${{ parameters.buildType_W }}
+#  jobs:
+#    - job: Build_${{ parameters.buildType_W }}
+#      pool:
+#        name: ${{ parameters.agentPool_Win }}
+#      steps:
+#      - template: Templates/build/checkout.yaml
+#        parameters:
+#          buildType_W: ${{ parameters.buildType_W }}
