@@ -7,7 +7,7 @@ parameters:
 
 steps:
   - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
-      - pwsh: |
+      - powershell: |
             param (
             [Parameter(Mandatory=$true)]
             [ValidateSet(32,64)]
