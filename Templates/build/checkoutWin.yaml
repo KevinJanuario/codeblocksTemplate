@@ -1,5 +1,5 @@
 steps:
   - task: PowerShell@2
     inputs:
-      filePath: 'script/'
+      filePath: '$(build.workingdirectory)/script/Win_DLL.ps1'
       arguments: 'Version 64'
