@@ -9,6 +9,7 @@ parameters:
   - name: sourcePath
     default: '.'
   - name: dotNetProjects
+    default: 'csproj'
 
 steps:
   - ${{ if eq(parameters.buildType, 'c') }}:
