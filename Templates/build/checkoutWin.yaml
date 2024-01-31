@@ -4,8 +4,6 @@ parameters:
     default: 'c_windows'
   - name: versionDll
     default: '64'
-pool:
-  - name: Default
 
 stages:
   - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
