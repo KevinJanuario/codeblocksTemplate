@@ -12,7 +12,9 @@ parameters:
   - name: agentPool
     default: Dev
   - name: agentPool_Win
-    default: Teste
+    default: Default
+  - name: version_dll
+    default: 64
   - name: sourcePath
     default: '.'
   - name: dotNetProjects
@@ -58,12 +60,13 @@ stages:
           parameters:
             buildType: ${{ parameters.buildType }}
 
-#- stage: BuildAndPush_${{ parameters.buildType_W }}
-#  jobs:
-#    - job: Build_${{ parameters.buildType_W }}
-#      pool:
-#        name: ${{ parameters.agentPool_Win }}
-#      steps:
-#      - template: Templates/build/checkout.yaml
-#        parameters:
-#          buildType_W: ${{ parameters.buildType_W }}
+- stage: BuildAndPush_Windows${{ parameters.buildType_W }}
+  jobs:
+    - job: Build_${{ parameters.buildType_W }}
+      pool:
+        name: ${{ parameters.agentPool_Win }}
+      steps:
+      - template: Templates/build/checkout.yaml
+        parameters:
+          buildType_W: ${{ parameters.buildType_W }}
+          version_dll: ${{ parameters.version_dll }}
