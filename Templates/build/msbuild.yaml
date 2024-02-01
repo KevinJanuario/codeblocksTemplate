@@ -2,7 +2,7 @@
 parameters:
   - name: vcxprojPath
 
-stages:
+steps:
   - task: NuGetCommand@2
     inputs:
       restoreSolution: '**\*.sln'
