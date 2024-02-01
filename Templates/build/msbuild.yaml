@@ -1,7 +1,6 @@
 ---
 parameters:
   - name: vcxprojPath
-    default: ''
 
 steps:
   - task: NuGetCommand@2
