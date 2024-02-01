@@ -5,10 +5,9 @@ parameters:
   - name: Version
     default: '64'
   
-jobs:
-- job: BuildAndTest
-  steps:
-  - powershell: |
-         /script/Win_DLL.ps1 -Version $Version
-    displayName: 'Executar script PowerShell'
-    workingDirectory: $(System.DefaultWorkingDirectory)
+steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: '/script/Win_DLL.ps1 -Version $Version'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
