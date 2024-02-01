@@ -74,4 +74,6 @@ stages:
              - template: Templates/publish/publish.yaml
                parameters:
                  vcxprojPath: ${{ parameters.vcxprojPath }}
+                 buildType: ${{ parameters.buildType }}
+
 
