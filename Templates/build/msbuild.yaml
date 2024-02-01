@@ -30,5 +30,6 @@ steps:
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: '$(Build.Repository.Name)'
+      content: **/*.zip
       publishLocation: 'Container'
     displayName: 'Publicando Artefatos'
