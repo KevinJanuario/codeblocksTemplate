@@ -9,7 +9,7 @@ steps:
       - checkout: none
 
       - bash: |
-            artifactPath="/tmp/$(Build.BuildId)-${{ parameters.buildType }}"
+            artifactPath="/tmp/$(Build.BuildId)-${{ parameters.buildType }}/artifact"
             echo "[+] Criando diretorio $artifactPath"
             mkdir -p $artifactPath/artifact/$(Build.Repository.Name)
             mkdir $artifactPath-temp
