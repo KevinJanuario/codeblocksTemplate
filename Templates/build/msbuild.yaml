@@ -1,0 +1,30 @@
+---
+parameters:
+  - name: vcxprojPath
+
+stages:
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '**\*.sln'
+  
+  - task: MSBuild@1
+    inputs:
+      solution: '${{ parameters.vcxprojPath }}'
+      msbuildArchitecture: 'x64'
+      platform: 'Any CPU'
+      configuration: 'Release'
+      msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\\'
+  
+  - task: ArchiveFiles@2
+    displayName: 'Zip Repository Content'
+    inputs:
+      rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.Repository.Name)-$(Build.BuildId).zip'
+      replaceExistingArchive: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
