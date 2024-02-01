@@ -21,7 +21,7 @@ steps:
         inputs:
           buildType: 'current'
           downloadType: 'single'
-          artifactName: 'drop'
+          artifactName: '$(Build.Repository.Name)'
           downloadPath: '$(Artifact)'
 
   - task: PublishBuildArtifacts@1
@@ -35,12 +35,13 @@ steps:
        set -e
        repo=perto-${{ parameters.buildType }}
        art=$(Artifact)
-       
-
+      
        for artifact in $(find $art -type f) ; do
          upload="${artifact#*artifact/}"
          echo "[+] File: $upload"
-         if curl -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
+         echo "[+] Repo: $repo"
+         echo "[!!] Upload URL: $(nexusHost)/repository/$repo/$upload
+         if curl -s -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
             echo "  - $artifact Publicado com sucesso no repositorio $repo!"
          else
             echo "  [-] Falha ao publicar no repositorio $repo - $artifact"
