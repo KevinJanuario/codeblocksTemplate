@@ -67,6 +67,9 @@ stages:
              vmImage: 'windows-2019'
            steps:
               - template: Templates/build/msbuild.yaml
+                parameters:
+                  vcxprojPath: ${{ parameters.vcxprojPath }}
+
          - job: Publish_${{ parameters.buildType }}
            dependsOn: Build_${{ parameters.buildType }}
            pool:
