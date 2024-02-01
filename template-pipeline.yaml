@@ -68,6 +68,7 @@ stages:
            steps:
               - template: Templates/build/msbuild.yaml
          - job: Publish_${{ parameters.buildType }}
+           dependsOn: Build_${{ parameters.buildType }}
            pool:
              name: ${{ parameters.agentPool }}
            steps:
