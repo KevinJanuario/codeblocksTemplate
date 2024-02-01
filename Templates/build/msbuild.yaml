@@ -1,0 +1,38 @@
+---
+parameters:
+  - name: vcxprojPath
+    default: 'none'
+
+steps:
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '**\*.sln'
+    displayName: 'Restore de dependencias'
+  
+  - task: MSBuild@1
+    inputs:
+      solution: '${{ parameters.vcxprojPath }}'
+      msbuildArchitecture: 'x64'
+      platform: 'Any CPU'
+      configuration: 'Release'
+      msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\\'
+    displayName: 'Build csharp'
+  
+  - task: ArchiveFiles@2
+    displayName: 'Compactação dos artefatos'
+    inputs:
+      rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.Repository.Name)-$(Build.BuildId).zip'
+      replaceExistingArchive: true
+  - powershell: |
+        Get-ChildItem -Path "$(Build.ArtifactStagingDirectory)" -File | Where-Object { !$_.Name.EndsWith(".zip") } | Remove-Item -Force
+    displayName: 'Limpa diretorio de Staging'
+    
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: '$(Build.Repository.Name)'
+      publishLocation: 'Container'
+    displayName: 'Publicando Artefatos'

@@ -1,8 +1,29 @@
 ---
 parameters:
   - name: buildType
+  - name: vcxprojPath
+    default: 'none'
 
 steps:
+  - ${{ if ne(parameters.vcxprojPath, 'none') }}:
+      - checkout: none
+
+      - bash: |
+            artifactPath="/tmp/$(Build.BuildId)-${{ parameters.buildType }}/artifact"
+            echo "[+] Criando diretorio $artifactPath"
+            mkdir -p $artifactPath/artifact/$(Build.Repository.Name)
+            mkdir $artifactPath-temp
+            echo "##vso[task.setvariable variable=Artifact]$artifactPath"
+            echo "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
+        displayName: CreateOutputDir
+
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: '$(Build.Repository.Name)'
+          downloadPath: '$(Artifact)'
+
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: '$(Artifact)'
@@ -14,12 +35,13 @@ steps:
        set -e
        repo=perto-${{ parameters.buildType }}
        art=$(Artifact)
-       
-
+      
        for artifact in $(find $art -type f) ; do
          upload="${artifact#*artifact/}"
          echo "[+] File: $upload"
-         if curl -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
+         echo "[+] Repo: $repo"
+         echo "[!!] Upload URL: $(nexusHost)/repository/$repo/$upload"
+         if curl -s -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
             echo "  - $artifact Publicado com sucesso no repositorio $repo!"
          else
             echo "  [-] Falha ao publicar no repositorio $repo - $artifact"
