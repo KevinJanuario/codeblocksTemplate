@@ -4,7 +4,7 @@ parameters:
   - name: vcxprojPath
 
 steps:
-  - ${{ if ne(parameters.vcxprojPath, '') }}:
+  - ${{ if ne(parameters.vcxprojPath, 'none') }}:
       - checkout: none
 
       - bash: |
