@@ -79,7 +79,7 @@ stages:
 #                parameters:
 #                  vcxprojPath: ${{ parameters.vcxprojPath }}
 #                  buildType: ${{ parameters.buildType }}
-  - stage: BuildAndPush_${{ parameters.buildTypeWindows }}
+  - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
     jobs:
      - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
         - job: Build_${{ parameters.buildTypeWindows }}
