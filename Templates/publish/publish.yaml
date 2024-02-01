@@ -2,6 +2,7 @@
 parameters:
   - name: buildType
   - name: vcxprojPath
+    default: 'none'
 
 steps:
   - ${{ if ne(parameters.vcxprojPath, 'none') }}:
