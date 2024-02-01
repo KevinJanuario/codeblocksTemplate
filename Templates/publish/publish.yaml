@@ -40,7 +40,7 @@ steps:
          upload="${artifact#*artifact/}"
          echo "[+] File: $upload"
          echo "[+] Repo: $repo"
-         echo "[!!] Upload URL: $(nexusHost)/repository/$repo/$upload
+         echo "[!!] Upload URL: $(nexusHost)/repository/$repo/$upload"
          if curl -s -w  "%{http_code}" -u $(nexusUser):$(nexusPass) --upload-file $artifact "$(nexusHost)/repository/$repo/$upload" | grep 201 ; then
             echo "  - $artifact Publicado com sucesso no repositorio $repo!"
          else
