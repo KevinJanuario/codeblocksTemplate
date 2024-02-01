@@ -19,54 +19,57 @@ parameters:
     default: '.'
   - name: dotNetProjects
     default: 'csproj'
+  - name: vcxprojPath
+    default: ''
 
 stages:
-# - ${{ if eq(parameters.enableSonar, true) }}:
-#     - stage: CheckRepository_${{ parameters.buildType }}
-#       jobs: 
-#         - job: Sonar_${{ parameters.buildType }}
-#           pool:
-#             name: ${{ parameters.agentPool }}
-#           steps:
-#             - template: Templates/checks/sonar.yaml
-#               parameters:
-#                 buildType: ${{ parameters.buildType }}
-#                 dotNetProjects: ${{ parameters.dotNetProjects }}
-#         - ${{ if eq(parameters.enableGitleaks, true) }}:
-#             - job: Gitleaks_${{ parameters.buildType }}
-#               pool:
-#                 name: ${{ parameters.agentPool }}
-#               steps:
-#                 - template: Templates/checks/gitleaks.yaml
-#         - ${{ if eq(parameters.enableCodeScan, true) }}:
-#             - job: CodeScan_${{ parameters.buildType }}
-#               pool:
-#                 name: ${{ parameters.agentPool }}
-#               steps:
-#                 - template: Templates/checks/slscan.yaml
+ - ${{ if eq(parameters.enableSonar, true) }}:
+     - stage: CheckRepository_${{ parameters.buildType }}
+       jobs: 
+         - job: Sonar_${{ parameters.buildType }}
+           pool:
+             name: ${{ parameters.agentPool }}
+           steps:
+             - template: Templates/checks/sonar.yaml
+               parameters:
+                 buildType: ${{ parameters.buildType }}
+                 dotNetProjects: ${{ parameters.dotNetProjects }}
+         - ${{ if eq(parameters.enableGitleaks, true) }}:
+             - job: Gitleaks_${{ parameters.buildType }}
+               pool:
+                 name: ${{ parameters.agentPool }}
+               steps:
+                 - template: Templates/checks/gitleaks.yaml
+         - ${{ if eq(parameters.enableCodeScan, true) }}:
+             - job: CodeScan_${{ parameters.buildType }}
+               pool:
+                 name: ${{ parameters.agentPool }}
+               steps:
+                 - template: Templates/checks/slscan.yaml
+ - stage: BuildAndPush_${{ parameters.buildType }}
+   jobs:
+     - ${{ if eq(parameters.vcxprojPath, '') }}:
+         - job: Build_${{ parameters.buildType }}
+           pool:
+             name: ${{ parameters.agentPool }}
+           steps:
+             - template: Templates/build/checkout.yaml
+               parameters:
+                 buildType: ${{ parameters.buildType }}
+                 sourcePath: ${{ parameters.sourcePath }}
+                 dotNetProjects: ${{ parameters.dotNetProjects }}
+             - template: Templates/publish/publish.yaml
+               parameters:
+                 buildType: ${{ parameters.buildType }}
+     - ${{ if ne(parameters.vcxprojPath, '') }}:
+         - job: Build_${{ parameters.buildType }}
+           pool:
+             vmImage: 'windows-2019'
+           steps:
+              - template: Templates/build/msbuild.yaml
+         - job: Publish_${{ parameters.buildType }}
+           pool:
+             name: ${{ parameters.agentPool }}
+           steps:
+             - template: Templates/publish/publish.yaml
 
-# - stage: BuildAndPush_${{ parameters.buildType }}
-#   jobs:
-#     - job: Build_${{ parameters.buildType }}
-#       pool:
-#         name: ${{ parameters.agentPool }}
-#       steps:
-#         - template: Templates/build/checkout.yaml
-#           parameters:
-#             buildType: ${{ parameters.buildType }}
-#             sourcePath: ${{ parameters.sourcePath }}
-#             dotNetProjects: ${{ parameters.dotNetProjects }}
-#         - template: Templates/publish/publish.yaml
-#           parameters:
-#             buildType: ${{ parameters.buildType }}
-
-- stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
-  jobs:
-    - job: Build_${{ parameters.buildTypeWindows }}
-      pool:
-        name: ${{ parameters.agentPoolWin }}
-      steps:
-      - template: Templates/build/checkoutWin.yaml
-        parameters:
-          buildTypeWindows: ${{ parameters.buildTypeWindows }}
-          versionDll: ${{ parameters.Version }}
