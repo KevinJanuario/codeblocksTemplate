@@ -88,5 +88,5 @@ stages:
           steps:
             - template: Templates/build/checkoutWin.yaml
               parameters:
-                buildType: ${{ parameters.buildTypeWindows }}
+                buildTypeWindows: ${{ parameters.buildTypeWindows }}
                 Version: ${{ parameters.Version }}
