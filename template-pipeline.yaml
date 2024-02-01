@@ -20,7 +20,7 @@ parameters:
   - name: dotNetProjects
     default: 'csproj'
   - name: vcxprojPath
-    default: ''
+    default: 'none'
 
 stages:
  - ${{ if eq(parameters.enableSonar, true) }}:
@@ -48,7 +48,7 @@ stages:
                  - template: Templates/checks/slscan.yaml
  - stage: BuildAndPush_${{ parameters.buildType }}
    jobs:
-     - ${{ if eq(parameters.vcxprojPath, '') }}:
+     - ${{ if eq(parameters.vcxprojPath, 'none') }}:
          - job: Build_${{ parameters.buildType }}
            pool:
              name: ${{ parameters.agentPool }}
@@ -61,7 +61,7 @@ stages:
              - template: Templates/publish/publish.yaml
                parameters:
                  buildType: ${{ parameters.buildType }}
-     - ${{ if ne(parameters.vcxprojPath, '') }}:
+     - ${{ if ne(parameters.vcxprojPath, 'none') }}:
          - job: Build_${{ parameters.buildType }}
            pool:
              vmImage: 'windows-2019'
