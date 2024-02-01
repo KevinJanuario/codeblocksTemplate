@@ -1,8 +1,28 @@
 ---
 parameters:
   - name: buildType
+  - name: vcxprojPath
 
 steps:
+  - ${{ if ne(parameters.vcxprojPath, '') }}:
+      - checkout: none
+
+      - bash: |
+            artifactPath="/tmp/$(Build.BuildId)-${{ parameters.buildType }}"
+            echo "[+] Criando diretorio $artifactPath"
+            mkdir -p $artifactPath/artifact/$(Build.Repository.Name)
+            mkdir $artifactPath-temp
+            echo "##vso[task.setvariable variable=Artifact]$artifactPath"
+            echo "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
+        displayName: CreateOutputDir
+
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          downloadPath: '$(Artifact)'
+
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: '$(Artifact)'
