@@ -2,10 +2,6 @@
 parameters:
   - name: buildType
     default: 'c'
-  - name: buildTypeWindows
-    default: 'c_windows'
-  - name: versionDll
-    default: '64'
   - name: sourcePath
     default: '.'
   - name: dotNetProjects
