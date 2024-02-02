@@ -8,8 +8,6 @@ parameters:
     default: ''
 
 steps: 
-  - ${{ if eq(parameters.buildType, 'csharp') }}:
-
   - ${{ if eq(parameters.buildType, 'c') }}:
       - task: SonarQubePrepare@5
         displayName: 'Sonar - Analysis Configuration'
