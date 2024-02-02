@@ -23,7 +23,7 @@ parameters:
     default: 'none'
 
 stages:
-  - ${{ if and(eq(parameters.enableSonar, true), ne(parameters.buildType, 'csharp') }}:
+  - ${{ if and(eq(parameters.enableSonar, true), ne(parameters.buildType, 'csharp')) }}:
       - stage: CheckRepository_${{ parameters.buildType }}
         jobs: 
           - job: Sonar_${{ parameters.buildType }}
