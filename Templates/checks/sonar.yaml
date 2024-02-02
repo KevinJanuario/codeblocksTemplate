@@ -1,8 +1,11 @@
 ---
 parameters:
   - name: buildType
+    default: ''
   - name: dotNetProjects
+    default: ''
   - name: vcxprojPath
+    default: ''
 
 steps: 
   - ${{ if eq(parameters.buildType, 'c') }}:
