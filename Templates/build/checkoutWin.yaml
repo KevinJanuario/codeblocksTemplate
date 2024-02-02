@@ -33,7 +33,8 @@ steps:
           Write-Host "Copiado com sucesso"
           
           # Executar comandos no CodeBlocks se a versão for 64
-          $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
+          #$codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
+          $codeBlocksPath = "$(mingwBasePath)\codeblocks.lnk"
           $projectFile = "*.cbp"          
           $projectPath = "$(Pipeline.Workspace)\s\Trunk\C-Fontes\"
           Write-Host "$projectPath"
