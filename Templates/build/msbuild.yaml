@@ -46,4 +46,4 @@ steps:
       publishLocation: 'Container'
     displayName: 'Publicando Artefatos'
 
-  - template: Templates/checks/sonar.yaml
+  - template: ../../Templates/checks/sonar.yaml
