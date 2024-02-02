@@ -79,9 +79,9 @@ stages:
 #                parameters:
 #                  vcxprojPath: ${{ parameters.vcxprojPath }}
 #                  buildType: ${{ parameters.buildType }}
-  - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
-    jobs:
-     - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
+  - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
+    - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
+      jobs:
         - job: Build_${{ parameters.buildTypeWindows }}
           pool:
             name: ${{ parameters.agentPoolWin }}
