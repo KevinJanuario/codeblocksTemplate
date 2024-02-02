@@ -34,8 +34,10 @@ steps:
           
           # Executar comandos no CodeBlocks se a versão for 64
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
-          $projectFile = "API_PertoCoinAcceptor.cbp"
-          $projectPath = "C:\Users\KevinJanuariodaSilva\Documents\PERTO\API_CoinAcceptor\Trunk\C-Fontes\"
+          $projectFile = "API_PertoCoinAcceptor.cbp"          
+          $projectPath = "$(build.artifactstagingdirectory)"
+
+          Write-Host "$projectPath"
           
           # Executar comandos no CodeBlocks
           Push-Location $projectPath
