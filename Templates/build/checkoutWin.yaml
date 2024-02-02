@@ -12,6 +12,8 @@ steps:
 
           # Definir o caminho base para a pasta mingw
           $mingwBasePath = "C:\Compiladores\mingw"
+          $projectPath = "$(Pipeline.Workspace)\s"
+          Write-Host "$projectPath"
           
           # Remover a pasta C:\Compiladores\mingw se ela existir
           if (Test-Path $mingwBasePath) {
@@ -35,8 +37,8 @@ steps:
           # Executar comandos no CodeBlocks se a versão for 64
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
           $projectFile = "*.cbp"          
-          $projectPath = "$(Pipeline.Workspace)\s"
-          Write-Host "$projectPath"
+          #$projectPath = "$(Pipeline.Workspace)\s"
+          #Write-Host "$projectPath"
           # Executar comandos no CodeBlocks
           Push-Location $projectPath
           & $codeBlocksPath --clean $projectFile
