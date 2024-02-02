@@ -12,6 +12,8 @@ steps:
       - task: UseNode@1
         inputs:
           version: '14.x'
+      - script: node -v
+        displayName: 'Verificando versão do nodeJs'
       - task: SonarQubePrepare@4
         inputs:
           SonarQube: 'SonarQube'
