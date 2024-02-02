@@ -45,10 +45,12 @@ steps:
           Start-Sleep -Seconds 15
           if ($Version -eq 64) {
               Write-Host "Versão 64 bits selecionada"
+              Write-Host "$codeBlocksPath --build $project\Path$projectFile --target DLL x64"
               & $codeBlocksPath --build $project\Path$projectFile --target "DLL x64"
               Pop-Location
           } else {
               Write-Host "Versão 32 bits selecionada"
+              Write-Host "$codeBlocksPath --build $project\Path$projectFile --target DLL x64"
               & $codeBlocksPath --build $project\Path$projectFile --target "DLL x86"
               Pop-Location
           }
