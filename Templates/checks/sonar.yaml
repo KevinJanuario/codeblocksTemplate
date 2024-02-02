@@ -9,17 +9,6 @@ parameters:
 
 steps: 
   - ${{ if eq(parameters.buildType, 'csharp') }}:
-      - task: UseNode@1
-        inputs:
-          version: '14.x'
-      - script: node -v
-        displayName: 'Verificando versão do nodeJs'
-      - task: SonarQubePrepare@4
-        inputs:
-          SonarQube: 'SonarQube'
-          scannerMode: 'MSBuild'
-          projectKey: '$(Build.Repository.Name)'
-          projectName: '$(Build.Repository.Name)' 
 
   - ${{ if eq(parameters.buildType, 'c') }}:
       - task: SonarQubePrepare@5
@@ -32,13 +21,14 @@ steps:
           extraProperties: |
             sonar.exclusions=**/*.bin
 
-  - ${{ if eq(parameters.buildType, 'dotnet') }}:
+  - ${{ if or(eq(parameters.buildType, 'dotnet'), eq(parameters.buildType, 'csharp')) }}:
       - task: SonarQubePrepare@5
         displayName: 'Sonar - Analysis Configuration'
         inputs:
           SonarQube: 'SonarQube'
           scannerMode: 'MSBuild'
           projectKey: '$(Build.Repository.Name)'
+  - ${{ if eq(parameters.buildType, 'dotnet') }}:
       - task: DotNetCoreCLI@2
         displayName: 'Sonar Dotnet Build'
         inputs:
