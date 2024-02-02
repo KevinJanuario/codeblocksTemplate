@@ -13,10 +13,10 @@ steps:
           $mingwBasePath = "C:\Compiladores\mingw"
           
           # Remover a pasta C:\Compiladores\mingw se ela existir
-          if (Test-Path $mingwBasePath) {
-              Remove-Item $mingwBasePath -Recurse -Force
-              Write-Host "Pasta antiga $mingwBasePath removida."
-          }
+          #if (Test-Path $mingwBasePath) {
+              #Remove-Item $mingwBasePath -Recurse -Force
+              #Write-Host "Pasta antiga $mingwBasePath removida."
+          #}
           
           # Definir o caminho do compilador com base no parâmetro
           $mingwPath = "C:\Compiladores\mingw$Version"
@@ -28,9 +28,9 @@ steps:
           }
           
           # Renomear a pasta do compilador para C:\Compiladores\mingw
-          Write-Host "Iniciando cópia para $mingwBasePath"
-          Copy-Item -Recurse $mingwPath $mingwBasePath
-          Write-Host "Copiado com sucesso"
+          #Write-Host "Iniciando cópia para $mingwBasePath"
+          #Copy-Item -Recurse $mingwPath $mingwBasePath
+          #Write-Host "Copiado com sucesso"
           
           # Executar comandos no CodeBlocks se a versão for 64
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
