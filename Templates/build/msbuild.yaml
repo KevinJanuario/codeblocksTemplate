@@ -15,9 +15,18 @@ steps:
       msbuildArchitecture: 'x64'
       platform: 'Any CPU'
       configuration: 'Release'
-      msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\\'
-    displayName: 'Build csharp'
+      msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\x64\'
+    displayName: 'Build csharp x64'
   
+    - task: MSBuild@1
+    inputs:
+      solution: '${{ parameters.vcxprojPath }}'
+      msbuildArchitecture: 'x86'
+      platform: 'Any CPU'
+      configuration: 'Release'
+      msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\x86\'
+    displayName: 'Build csharp x86'
+
   - task: ArchiveFiles@2
     displayName: 'Compactação dos artefatos'
     inputs:
