@@ -18,7 +18,7 @@ steps:
       msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\x64\'
     displayName: 'Build csharp x64'
   
-    - task: MSBuild@1
+  - task: MSBuild@1
     inputs:
       solution: '${{ parameters.vcxprojPath }}'
       msbuildArchitecture: 'x86'
