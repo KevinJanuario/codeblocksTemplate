@@ -40,12 +40,12 @@ steps:
 
           # Executar comandos no CodeBlocks
           Push-Location $projectPath
-          dir
           & $codeBlocksPath --clean $projectFile
           Start-Sleep -Seconds 15
           if ($Version -eq 64) {
               Write-Host "Versão 64 bits selecionada"
-              & "C:\Program Files\CodeBlocks\codeblocks.exe" --build API_PertoCoinAcceptor.cbp --target "DLL x64"
+              #& "C:\Program Files\CodeBlocks\codeblocks.exe" --build API_PertoCoinAcceptor.cbp --target "DLL x64"
+              & "C:\Program Files\CodeBlocks\codeblocks.exe" /h
               Pop-Location
           } else {
               Write-Host "Versão 32 bits selecionada"
