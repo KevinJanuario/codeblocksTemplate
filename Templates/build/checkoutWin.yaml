@@ -36,9 +36,7 @@ steps:
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
           $projectFile = "*.cbp"          
           $projectPath = "$(build.artifactstagingdirectory)"
-
-          Write-Host "$projectPath"
-          
+          Write-Host "$projectPath"
           # Executar comandos no CodeBlocks
           Push-Location $projectPath
           & $codeBlocksPath --clean $projectFile
