@@ -2,6 +2,7 @@
 parameters:
   - name: buildType
   - name: dotNetProjects
+  - name: vcxprojPath
 
 steps:
   - ${{ if eq(parameters.buildType, 'csharp') }}:
