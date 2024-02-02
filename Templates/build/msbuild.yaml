@@ -48,4 +48,4 @@ steps:
 
   - template: ../../Templates/checks/sonar.yaml
     parameters:
-      buildType: ${{ parameters.buildType }}
+      buildType: 'csharp'
