@@ -45,3 +45,5 @@ steps:
       ArtifactName: '$(Build.Repository.Name)'
       publishLocation: 'Container'
     displayName: 'Publicando Artefatos'
+
+  - template: Templates/checks/sonar.yaml
