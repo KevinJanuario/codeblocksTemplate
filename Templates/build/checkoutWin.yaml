@@ -33,8 +33,7 @@ steps:
           Write-Host "Copiado com sucesso"
           
           # Executar comandos no CodeBlocks se a versão for 64
-          #$codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
-          $codeBlocksPath = "$(mingwBasePath)\codeblocks.lnk"
+          $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
           $projectFile = "*.cbp"          
           $projectPath = "$(Pipeline.Workspace)\s\Trunk\C-Fontes\"
           Write-Host "$projectPath"
@@ -45,13 +44,13 @@ steps:
           Start-Sleep -Seconds 15
           if ($Version -eq 64) {
               Write-Host "Versão 64 bits selecionada"
-              Write-Host "$codeBlocksPath --build $projectPath$projectFile --target DLL x64"
-              & $codeBlocksPath --build $projectPath$projectFile --target "DLL x64"
+              Write-Host ""$codeBlocksPath" --build $projectPath$projectFile --target DLL x64"
+              & "$codeBlocksPath --build $projectPath$projectFile --target "DLL x64"
               Pop-Location
           } else {
               Write-Host "Versão 32 bits selecionada"
-              Write-Host "$codeBlocksPath --build $projectPath$projectFile --target DLL x64"
-              & $codeBlocksPath --build $projectPath$projectFile --target "DLL x86"
+              Write-Host ""$codeBlocksPath" --build $projectPath$projectFile --target DLL x64"
+              & "$codeBlocksPath --build $projectPath$projectFile --target "DLL x86"
               Pop-Location
           }
         displayName: 'Build Windows'
