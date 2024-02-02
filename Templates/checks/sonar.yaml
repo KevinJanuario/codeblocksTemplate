@@ -8,6 +8,14 @@ parameters:
     default: ''
 
 steps: 
+  - ${{ if eq(parameters.buildType, 'csharp') }}:
+      - task: SonarQubePrepare@4
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          projectKey: '$(Build.Repository.Name)'
+          projectName: '$(Build.Repository.Name)' 
+
   - ${{ if eq(parameters.buildType, 'c') }}:
       - task: SonarQubePrepare@5
         displayName: 'Sonar - Analysis Configuration'
