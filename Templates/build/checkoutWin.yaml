@@ -35,7 +35,7 @@ steps:
           # Executar comandos no CodeBlocks se a versão for 64
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
           $projectFile = "*.cbp"          
-          $projectPath = "$(build.artifactstagingdirectory)"
+          $projectPath = "$(RestoreBuildProjects)"
           Write-Host "$projectPath"
           # Executar comandos no CodeBlocks
           Push-Location $projectPath
