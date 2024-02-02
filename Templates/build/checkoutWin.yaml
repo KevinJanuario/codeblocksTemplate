@@ -29,8 +29,8 @@ steps:
           }
           
           # Renomear a pasta do compilador para C:\Compiladores\mingw
+          Write-Host "Iniciando cópia para $mingwBasePath"
           Copy-Item -Recurse $mingwPath $mingwBasePath
-          Write-Host "Pasta do compilador renomeada para $mingwBasePath"
           
           # Executar comandos no CodeBlocks se a versão for 64
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
