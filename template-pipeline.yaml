@@ -34,6 +34,8 @@ stages:
                 parameters:
                   buildType: ${{ parameters.buildType }}
                   dotNetProjects: ${{ parameters.dotNetProjects }}
+                  vcxprojPath: ${{ parameters.vcxprojPath }}
+
           - ${{ if eq(parameters.enableGitleaks, true) }}:
               - job: Gitleaks_${{ parameters.buildType }}
                 pool:
