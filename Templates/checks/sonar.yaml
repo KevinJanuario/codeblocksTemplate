@@ -9,6 +9,9 @@ parameters:
 
 steps: 
   - ${{ if eq(parameters.buildType, 'csharp') }}:
+      - task: UseNode@1
+        inputs:
+        version: '14.x'
       - task: SonarQubePrepare@4
         inputs:
           SonarQube: 'SonarQube'
