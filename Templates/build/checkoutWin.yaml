@@ -30,14 +30,14 @@ steps:
           
           # Renomear a pasta do compilador para C:\Compiladores\mingw
           Write-Host "Iniciando cópia para $mingwBasePath"
-          Copy-Item -Recurse $mingwPath $mingwBasePath
+          Copy-Item -Recurse $mingwPath $mingwBasePath -Verbose
           
           # Executar comandos no CodeBlocks se a versão for 64
           $codeBlocksPath = "C:\Program Files\CodeBlocks\codeblocks.exe"
           $projectFile = "*.cbp"          
-          $projectPath = "$(Pipeline.Workspace)\s"
+          $projectPath = "$(Pipeline.Workspace)\s\Trunk\C-Fontes"
           Write-Host "$projectPath"
-          
+
           # Executar comandos no CodeBlocks
           Push-Location $projectPath
           & $codeBlocksPath --clean $projectFile
