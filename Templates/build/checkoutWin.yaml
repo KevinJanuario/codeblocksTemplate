@@ -7,7 +7,6 @@ parameters:
 steps:
   - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
       - powershell: |
-          Write-Host "FUNCIONOU!!!!"
           $Version = [int]$env:VERSION
 
           # Definir o caminho base para a pasta mingw
@@ -45,13 +44,13 @@ steps:
           Start-Sleep -Seconds 15
           if ($Version -eq 64) {
               Write-Host "Versão 64 bits selecionada"
-              Write-Host "$codeBlocksPath --build $project\Path$projectFile --target DLL x64"
-              & $codeBlocksPath --build $project\Path$projectFile --target "DLL x64"
+              Write-Host "$codeBlocksPath --build $projectPath$projectFile --target DLL x64"
+              & $codeBlocksPath --build $projectPath$projectFile --target "DLL x64"
               Pop-Location
           } else {
               Write-Host "Versão 32 bits selecionada"
-              Write-Host "$codeBlocksPath --build $project\Path$projectFile --target DLL x64"
-              & $codeBlocksPath --build $project\Path$projectFile --target "DLL x86"
+              Write-Host "$codeBlocksPath --build $projectPath$projectFile --target DLL x64"
+              & $codeBlocksPath --build $projectPath$projectFile --target "DLL x86"
               Pop-Location
           }
         displayName: 'Build Windows'
