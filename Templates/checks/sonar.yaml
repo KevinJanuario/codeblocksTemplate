@@ -4,6 +4,20 @@ parameters:
   - name: dotNetProjects
 
 steps:
+  - ${{ if eq(parameters.buildType, 'csharp') }}:
+      - task: NuGetCommand@2
+        inputs:
+          restoreSolution: '**\*.sln'
+        displayName: 'Restore de dependencias'
+      
+      - task: MSBuild@1
+        inputs:
+          solution: '${{ parameters.vcxprojPath }}'
+          msbuildArchitecture: 'x64'
+          platform: 'Any CPU'
+          configuration: 'Release'
+          msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)\\'
+        displayName: 'Build csharp'
   - ${{ if eq(parameters.buildType, 'c') }}:
       - task: SonarQubePrepare@5
         displayName: 'Sonar - Analysis Configuration'
