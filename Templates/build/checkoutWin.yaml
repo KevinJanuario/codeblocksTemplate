@@ -45,7 +45,7 @@ steps:
           Start-Sleep -Seconds 15
           if ($Version -eq 64) {
               Write-Host "Versão 64 bits selecionada"
-              & "$codeBlocksPath" --build $projectFile --target "DLL x64"
+              & "C:\Program Files\CodeBlocks\codeblocks.exe" --build API_PertoCoinAcceptor.cbp --target "DLL x64"
               Pop-Location
           } else {
               Write-Host "Versão 32 bits selecionada"
