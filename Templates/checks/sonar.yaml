@@ -10,16 +10,16 @@ parameters:
     default: ''
 
 steps: 
-  - ${{ if eq(parameters.buildType, 'c') }}:
-      - task: SonarQubePrepare@5
-        displayName: 'Sonar - Analysis Configuration'
-        inputs:
-          SonarQube: 'SonarQube'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: $(Build.Repository.Name)
-          extraProperties: |
-            ${{ parameters.sonarProp }}
+  #- ${{ if eq(parameters.buildType, 'c') }}:
+  - task: SonarQubePrepare@5
+    displayName: 'Sonar - Analysis Configuration'
+    inputs:
+      SonarQube: 'SonarQube'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: $(Build.Repository.Name)
+      extraProperties: |
+        ${{ parameters.sonarProp }}
 
 
   - ${{ if eq(parameters.buildType, 'dotnet') }}:
