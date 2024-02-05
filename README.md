@@ -82,8 +82,9 @@ stages:
 # Possibilidade de enviar parametros para configurar o Sonar, enviando sonar properties como parametro, por exemplo:
 
 ```
-parameters: |
-  sonar.exclude=**/*.bin
-  sonar.coverage.exclusions=**
-  sonar.language=c
+parameters: 
+  sonarProp: |
+    sonar.exclude=**/*.bin
+    sonar.coverage.exclusions=**
+    sonar.language=c
 ```
