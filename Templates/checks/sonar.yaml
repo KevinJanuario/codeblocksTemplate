@@ -10,6 +10,9 @@ parameters:
     default: ''
 
 steps: 
+  - checkout: self
+    fetchDepth: 0
+
   #- ${{ if eq(parameters.buildType, 'c') }}:
   - task: SonarQubePrepare@5
     displayName: 'Sonar - Analysis Configuration'
