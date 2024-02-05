@@ -6,6 +6,8 @@ parameters:
     default: ''
   - name: vcxprojPath
     default: ''
+  - name: sonarProp
+    default: ''
 
 steps: 
   - ${{ if eq(parameters.buildType, 'c') }}:
@@ -17,7 +19,7 @@ steps:
           configMode: 'manual'
           cliProjectKey: $(Build.Repository.Name)
           extraProperties: |
-            sonar.exclusions=**/*.bin
+            ${{ parameters.sonarProp }}
 
   - ${{ if or(eq(parameters.buildType, 'dotnet'), eq(parameters.buildType, 'csharp')) }}:
       - task: SonarQubePrepare@5

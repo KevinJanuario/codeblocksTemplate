@@ -21,6 +21,8 @@ parameters:
     default: 'csproj'
   - name: vcxprojPath
     default: 'none'
+  - name: sonarProp
+    default: ''
 
 stages:
   - ${{ if and(eq(parameters.enableSonar, true), ne(parameters.buildType, 'csharp')) }}:
@@ -35,6 +37,7 @@ stages:
                   buildType: ${{ parameters.buildType }}
                   dotNetProjects: ${{ parameters.dotNetProjects }}
                   vcxprojPath: ${{ parameters.vcxprojPath }}
+                  sonarProp: ${{ parameters.sonarProp }}
 
           - ${{ if eq(parameters.enableGitleaks, true) }}:
               - job: Gitleaks_${{ parameters.buildType }}

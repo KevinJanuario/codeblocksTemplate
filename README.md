@@ -78,3 +78,13 @@ stages:
 ```
 # É importante mencionar que a Pipeline se autentica com o Nexus pelo grupo de variaveis chamado `Nexus` que esta na Library do projeto Azure Devops.
 
+
+# Possibilidade de enviar parametros para configurar o Sonar, enviando sonar properties como parametro, por exemplo:
+
+```
+parameters: 
+  sonarProp: |
+    sonar.exclude=**/*.bin
+    sonar.coverage.exclusions=**
+    sonar.language=c
+```
