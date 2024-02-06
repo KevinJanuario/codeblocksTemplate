@@ -1,8 +1,6 @@
 parameters:
   - name: buildType
     default: 'Drivers'
-  - name: agentPool
-    default: Dev
   - name: agentPoolWin
     default: Default
 
