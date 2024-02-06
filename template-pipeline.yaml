@@ -27,64 +27,64 @@ parameters:
     default: ''
 
 stages:
-  # - ${{ if eq(parameters.enableSonar, true) }}:
-  #     - stage: CheckRepository_${{ parameters.buildType }}
-  #       jobs: 
-  #         - job: Sonar_${{ parameters.buildType }}
-  #           pool:
-  #             name: ${{ parameters.agentPool }}
-  #           steps:
-  #             - template: Templates/checks/sonar.yaml
-  #               parameters:
-  #                 buildType: ${{ parameters.buildType }}
-  #                 dotNetProjects: ${{ parameters.dotNetProjects }}
-  #                 vcxprojPath: ${{ parameters.vcxprojPath }}
-  #                 sonarProp: ${{ parameters.sonarProp }}
+  - ${{ if eq(parameters.enableSonar, true) }}:
+      - stage: CheckRepository_${{ parameters.buildType }}
+        jobs: 
+          - job: Sonar_${{ parameters.buildType }}
+            pool:
+              name: ${{ parameters.agentPool }}
+            steps:
+              - template: Templates/checks/sonar.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+                  dotNetProjects: ${{ parameters.dotNetProjects }}
+                  vcxprojPath: ${{ parameters.vcxprojPath }}
+                  sonarProp: ${{ parameters.sonarProp }}
 
-  #         - ${{ if eq(parameters.enableGitleaks, true) }}:
-  #             - job: Gitleaks_${{ parameters.buildType }}
-  #               pool:
-  #                 name: ${{ parameters.agentPool }}
-  #               steps:
-  #                 - template: Templates/checks/gitleaks.yaml
-  #         - ${{ if eq(parameters.enableCodeScan, true) }}:
-  #             - job: CodeScan_${{ parameters.buildType }}
-  #               pool:
-  #                 name: ${{ parameters.agentPool }}
-  #               steps:
-  #                 - template: Templates/checks/slscan.yaml
-  # - stage: BuildAndPush_${{ parameters.buildType }}
-  #   jobs:
-  #     - ${{ if eq(parameters.vcxprojPath, 'none') }}:
-  #         - job: Build_${{ parameters.buildType }}
-  #           pool:
-  #             name: ${{ parameters.agentPool }}
-  #           steps:
-  #             - template: Templates/build/checkout.yaml
-  #               parameters:
-  #                 buildType: ${{ parameters.buildType }}
-  #                 sourcePath: ${{ parameters.sourcePath }}
-  #                 dotNetProjects: ${{ parameters.dotNetProjects }}
-  #             - template: Templates/publish/publish.yaml
-  #               parameters:
-  #                 buildType: ${{ parameters.buildType }}
-  #     - ${{ if ne(parameters.vcxprojPath, 'none') }}:
-  #         - job: Build_${{ parameters.buildType }}
-  #           pool:
-  #             vmImage: 'windows-2019'
-  #           steps:
-  #              - template: Templates/build/msbuild.yaml
-  #                parameters:
-  #                  vcxprojPath: ${{ parameters.vcxprojPath }}
-  #         - job: Publish_${{ parameters.buildType }}
-  #           dependsOn: Build_${{ parameters.buildType }}
-  #           pool:
-  #             name: ${{ parameters.agentPool }}
-  #           steps:
-  #             - template: Templates/publish/publish.yaml
-  #               parameters:
-  #                 vcxprojPath: ${{ parameters.vcxprojPath }}
-  #                 buildType: ${{ parameters.buildType }}
+          - ${{ if eq(parameters.enableGitleaks, true) }}:
+              - job: Gitleaks_${{ parameters.buildType }}
+                pool:
+                  name: ${{ parameters.agentPool }}
+                steps:
+                  - template: Templates/checks/gitleaks.yaml
+          - ${{ if eq(parameters.enableCodeScan, true) }}:
+              - job: CodeScan_${{ parameters.buildType }}
+                pool:
+                  name: ${{ parameters.agentPool }}
+                steps:
+                  - template: Templates/checks/slscan.yaml
+  - stage: BuildAndPush_${{ parameters.buildType }}
+    jobs:
+      - ${{ if eq(parameters.vcxprojPath, 'none') }}:
+          - job: Build_${{ parameters.buildType }}
+            pool:
+              name: ${{ parameters.agentPool }}
+            steps:
+              - template: Templates/build/checkout.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+                  sourcePath: ${{ parameters.sourcePath }}
+                  dotNetProjects: ${{ parameters.dotNetProjects }}
+              - template: Templates/publish/publish.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+      - ${{ if ne(parameters.vcxprojPath, 'none') }}:
+          - job: Build_${{ parameters.buildType }}
+            pool:
+              vmImage: 'windows-2019'
+            steps:
+               - template: Templates/build/msbuild.yaml
+                 parameters:
+                   vcxprojPath: ${{ parameters.vcxprojPath }}
+          - job: Publish_${{ parameters.buildType }}
+            dependsOn: Build_${{ parameters.buildType }}
+            pool:
+              name: ${{ parameters.agentPool }}
+            steps:
+              - template: Templates/publish/publish.yaml
+                parameters:
+                  vcxprojPath: ${{ parameters.vcxprojPath }}
+                  buildType: ${{ parameters.buildType }}
   - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
     - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
       jobs:
