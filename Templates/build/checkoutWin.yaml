@@ -61,7 +61,7 @@ steps:
             
             # Remover a pasta C:\Compiladores\mingw se ela existir
             if (Test-Path $mingwBasePath) {
-                Remove-Item $mingwBasePath -Recurse -Force
+                Remove-Item $mingwBasePath\* -Recurse -Force
                 Write-Host "Pasta antiga $mingwBasePath removida."
             }
             
