@@ -8,7 +8,7 @@ steps:
       $api = "$(Build.Repository.Name)"
       $repo = "perto-${{ parameters.buildType }}"
       $authInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$(nexusUser):$(nexusPass)"))
-      $file = "$(Build.SourcesDirectory)\Trunk\C-Fontes\bin\Windows\Releas*"
+      $file = "$(Build.SourcesDirectory)\Trunk\C-Fontes\ptptrpro\*"
  
       # Usar loop para tratar múltiplos arquivos, já que -InFile não suporta wildcard (*.dll)
       Get-ChildItem -Path $file32 | ForEach-Object {
