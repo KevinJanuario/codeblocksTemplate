@@ -1,0 +1,19 @@
+parameters:
+  - name: buildType
+    default: 'Drivers'
+  - name: agentPool
+    default: Dev
+  - name: agentPoolWin
+    default: Default
+
+stages:
+  - ${{ if eq(parameters.buildType, 'Drivers') }}:
+      jobs:
+        - job: Build_${{ parameters.buildType }}
+          pool:
+            name: ${{ parameters.agentPoolWin }}
+          steps:
+            - template: Templates/publish/publishNexus.yaml
+              parameters:
+                buildType: ${{ parameters.buildType }}
+
