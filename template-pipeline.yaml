@@ -8,7 +8,7 @@ parameters:
   - name: buildType
     default: 'c'
   - name: buildTypeWindows
-    default: 'c_windows'
+    default: 'c'
   - name: agentPool
     default: Dev
   - name: agentPoolWin
