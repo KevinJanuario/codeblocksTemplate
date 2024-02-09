@@ -4,13 +4,10 @@ parameters:
  
 steps:
 - script: |
+    docker pull yamandevops/debian:9 
+    docker run -d --name $(Build.Repository.Name) -it docker.io/yamandevops/debian:9 /bin/bash
+    docker exec -it $(Build.Repository.Name) bash
     pwd
-    
- 
-    # Exemplo de comandos adicionais:
-    # git clone <seu-repositório>
-    # cd <diretório-do-seu-projeto>
-    # make -f Makefile.freeimage all
  
   displayName: 'Execute Script inside Container'
   condition: succeeded()
