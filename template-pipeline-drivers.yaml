@@ -3,8 +3,21 @@ parameters:
     default: 'Drivers'
   - name: agentPoolWin
     default: Default
+  - name: agentPool
+    default: Dev
 
 stages:
+   - ${{ if eq(parameters.buildType, 'dockerBuild') }}:
+      stage:
+      jobs:
+        - job: Build_${{ parameters.buildType }}
+          pool:
+            name: ${{ parameters.agentPool }}
+          steps:
+            - template: Templates/conteiner/dockerRun.yaml
+              parameters:
+                buildType: ${{ parameters.buildType }}
+
   - ${{ if eq(parameters.buildType, 'Drivers') }}:
       stage:
       jobs:
