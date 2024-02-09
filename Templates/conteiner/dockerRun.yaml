@@ -1,10 +1,15 @@
+---
+parameters:
+  - name: buildType
+    default: ''
+    
 steps:
 - script: |
     docker pull yamandevops/debian:8
 
-    docker run --name debian-8 -d -p 8080:80 yamandevops/debian:8
+    docker run --name debian-9 yamandevops/debian:9
 
-    docker exec -it debian-8 /bin/bash
+    docker exec -it debian-9 /bin/bash
     
     $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
     Write-Host "$projectPath"
@@ -18,9 +23,9 @@ steps:
   continueOnError: false
 
 - task: PublishBuildArtifacts@1
-    displayName: "Publish image debian 8"
+    displayName: "Publish image debian 9"
     condition: succeededOrFailed()
     inputs:
-        PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-8"
-        ArtifactName: "debian-8"
+        PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
+        ArtifactName: "debian-9"
         publishLocation: "Container"
