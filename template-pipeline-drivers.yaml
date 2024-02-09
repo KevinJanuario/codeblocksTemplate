@@ -1,6 +1,6 @@
 parameters:
   - name: buildType
-    default: 'Drivers'
+    default: 'dockerBuild'
   - name: agentPoolWin
     default: Default
   - name: agentPool
@@ -17,15 +17,3 @@ stages:
             - template: Templates/conteiner/dockerRun.yaml
               parameters:
                 buildType: ${{ parameters.buildType }}
-
-  - ${{ if eq(parameters.buildType, 'Drivers') }}:
-      stage:
-      jobs:
-        - job: Build_${{ parameters.buildType }}
-          pool:
-            name: ${{ parameters.agentPoolWin }}
-          steps:
-            - template: Templates/publish/publishNexus.yaml
-              parameters:
-                buildType: ${{ parameters.buildType }}
-
