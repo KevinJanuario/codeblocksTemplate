@@ -11,6 +11,6 @@ steps:
     displayName: "Publish image debian 9"
     condition: succeededOrFailed()
     inputs:
-        PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian9"
-        ArtifactName: "debian9"
+        PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
+        ArtifactName: "debian-9"
         publishLocation: "Container"
