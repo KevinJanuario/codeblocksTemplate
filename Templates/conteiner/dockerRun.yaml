@@ -1,35 +1,24 @@
----
 parameters:
   - name: buildType
     default: ''
-
+ 
 container:
   image: yamandevops/debian:9
-  
+ 
 steps:
 - script: |
     pwd
-    # docker pull yamandevops/debian:9
-
-    # docker run -d yamandevops/debian:9
-
-    # docker run -v $(pwd):/opt/app -it yamandevops/debian:9 /bin/bash
-    # docker ps
-
-    # pwd
-    # ls -lia /opt/app
-
-    # $projectPath = "/opt/app/C-Fontes/ptptrpro"
-    # Write-Host "$projectPath"
-
-    # cd $projectPath 
-
+    
+ 
+    # Exemplo de comandos adicionais:
+    # git clone <seu-repositório>
+    # cd <diretório-do-seu-projeto>
     # make -f Makefile.freeimage all
-
-  displayName: 'Run Docker container'
+ 
+  displayName: 'Execute Script inside Container'
   condition: succeeded()
   continueOnError: false
-
+ 
 - task: PublishBuildArtifacts@1
   displayName: "Publish image debian 9"
   condition: succeededOrFailed()
