@@ -5,7 +5,7 @@ parameters:
 
 steps:
 - script: |
-    docker pull yamandevops/debian:8
+    docker pull yamandevops/debian:9
 
     docker run --name debian-9 yamandevops/debian:9
 
