@@ -3,7 +3,8 @@ parameters:
   - name: buildType
     default: ''
 
-container: 'yamandevops/debian:9'
+container: 
+  image: yamandevops/debian:9
 
 steps:
 - script: |
