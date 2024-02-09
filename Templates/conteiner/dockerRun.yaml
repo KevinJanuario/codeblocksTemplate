@@ -2,9 +2,6 @@ parameters:
   - name: buildType
     default: ''
  
-container:
-  image: yamandevops/debian:9
- 
 steps:
 - script: |
     pwd
