@@ -8,6 +8,7 @@ steps:
     docker pull yamandevops/debian:9
 
     docker run -v "$(pwd)/Trunk/":/opt/app -it yamandevops/debian:9 /bin/bash
+    docker ps
 
     pwd
     ls -lia /opt/app
