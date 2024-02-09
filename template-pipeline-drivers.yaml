@@ -6,9 +6,6 @@ parameters:
   - name: agentPool
     default: Dev
 
-container:
-  image: yamandevops/debian:9
-
 stages:
    - ${{ if eq(parameters.buildType, 'dockerBuild') }}:
       stage:
