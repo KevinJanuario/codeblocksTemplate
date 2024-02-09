@@ -4,7 +4,7 @@ parameters:
     default: ''
 
 container:
-  image: registry:ubuntu1804
+  image: yamandevops/debian:9
   
 steps:
 - script: |
