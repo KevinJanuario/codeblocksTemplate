@@ -3,24 +3,27 @@ parameters:
   - name: buildType
     default: ''
 
+container: 'yamandevops/debian:9'
+
 steps:
 - script: |
-    docker pull yamandevops/debian:9
+    pwd
+    # docker pull yamandevops/debian:9
 
     # docker run -d yamandevops/debian:9
 
-    docker run -v $(pwd):/opt/app -it yamandevops/debian:9 /bin/bash
-    docker ps
+    # docker run -v $(pwd):/opt/app -it yamandevops/debian:9 /bin/bash
+    # docker ps
 
-    pwd
-    ls -lia /opt/app
+    # pwd
+    # ls -lia /opt/app
 
-    $projectPath = "/opt/app/C-Fontes/ptptrpro"
-    Write-Host "$projectPath"
+    # $projectPath = "/opt/app/C-Fontes/ptptrpro"
+    # Write-Host "$projectPath"
 
-    cd $projectPath 
+    # cd $projectPath 
 
-    make -f Makefile.freeimage all
+    # make -f Makefile.freeimage all
 
   displayName: 'Run Docker container'
   condition: succeeded()
