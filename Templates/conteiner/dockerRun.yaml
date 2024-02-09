@@ -2,7 +2,7 @@
 parameters:
   - name: buildType
     default: ''
-    
+
 steps:
 - script: |
     docker pull yamandevops/debian:8
@@ -11,21 +11,21 @@ steps:
 
     docker exec -it debian-9 /bin/bash
     
-    $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+    $projectPath = "/opt/app/C-Fontes/ptptrpro"
     Write-Host "$projectPath"
 
     cd $projectPath 
 
-    make
+    make -f Makefile.freeimage all
 
   displayName: 'Run Docker container'
   condition: succeeded()
   continueOnError: false
 
 - task: PublishBuildArtifacts@1
-    displayName: "Publish image debian 9"
-    condition: succeededOrFailed()
-    inputs:
-        PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
-        ArtifactName: "debian-9"
-        publishLocation: "Container"
+  displayName: "Publish image debian 9"
+  condition: succeededOrFailed()
+  inputs:
+    PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
+    ArtifactName: "debian-9"
+    publishLocation: "Container"
