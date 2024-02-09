@@ -7,7 +7,7 @@ steps:
 - script: |
     docker pull yamandevops/debian:9
 
-    docker run -v $(pwd):/opt/app -it yamandevops/debian:9 /bin/bash
+    docker run -v "$(Build.SourcesDirectory)/Trunk/":/opt/app -it yamandevops/debian:9 /bin/bash
     
     $projectPath = "/opt/app/C-Fontes/ptptrpro"
     Write-Host "$projectPath"
