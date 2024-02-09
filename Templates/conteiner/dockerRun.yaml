@@ -1,0 +1,16 @@
+steps:
+- script: |
+    docker pull yamandevops/debian:9
+
+    docker run --name container_linux -d -p 8080:80 yamandevops/debian:9
+  displayName: 'Run Docker container'
+  condition: succeeded()
+  continueOnError: false
+
+- task: PublishBuildArtifacts@1
+    displayName: "Publish image debian 9"
+    condition: succeededOrFailed()
+    inputs:
+        PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian9"
+        ArtifactName: "debian9"
+        publishLocation: "Container"
