@@ -8,7 +8,7 @@ steps:
     docker run -d --name $(Build.Repository.Name) -it docker.io/yamandevops/debian:9 /bin/bash
     docker cp $(Build.SourcesDirectory)/Trunk $(Build.Repository.Name):/opt/app
     docker exec -it $(Build.Repository.Name) bash
-    cd /opt/app/Trunk/C-Fontes/ptptrpro
+    cd /opt/app/C-Fontes/ptptrpro
     make -f Makefile.FreeImage all
     pwd
  
