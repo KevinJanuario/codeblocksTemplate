@@ -1,6 +1,6 @@
 parameters:
   - name: buildType
-    default: ''
+    default: 'c'
  
 steps:
 - script: |
@@ -9,6 +9,13 @@ steps:
     docker exec $(Build.Repository.Name) bash -c "cd /opt/app/Trunk/C-Fontes/ptptrpro && make -f Makefile.freeimage clean && make -f Makefile.freeimage all"
     # cd /opt/app/Trunk/C-Fontes/ptptrpro
     # make -f Makefile.FreeImage all
+    
+    repo=perto-${{ parameters.buildType }}
+    artefato="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/FreeImage.3.15.1/Dist/*.so"
+
+    # Comando curl para enviar o arquivo
+    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$artefato" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
+
     docker rm -f $(Build.Repository.Name)
  
   displayName: 'Execute Script inside Container'
