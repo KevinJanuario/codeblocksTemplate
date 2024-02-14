@@ -7,10 +7,10 @@ steps:
     docker pull yamandevops/debian:9 
     docker run -d --name $(Build.Repository.Name) -it docker.io/yamandevops/debian:9 /bin/bash
     docker cp $(Build.SourcesDirectory)/Trunk $(Build.Repository.Name):/opt/app
-    docker exec -it $(Build.Repository.Name) bash
-    cd /opt/app/C-Fontes/ptptrpro
-    make -f Makefile.FreeImage all
-    pwd
+    docker exec $(Build.Repository.Name) bash -c "cd /opt/app/C-Fontes/ptptrpro && make -f Makefile.FreeImage all"
+    # cd /opt/app/C-Fontes/ptptrpro
+    # make -f Makefile.FreeImage all
+    docker rm -f $(Build.Repository.Name)
  
   displayName: 'Execute Script inside Container'
   condition: succeeded()
