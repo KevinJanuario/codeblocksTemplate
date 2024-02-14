@@ -21,18 +21,13 @@ steps:
     ARQUIVO_ENVIAR=$(find "$artifactPath" -name "$artifact" -type f)
 
     # Verificar se um arquivo foi encontrado
-    if [ -z "$ARQUIVO_ENVIAR" ]; 
-      then
-        echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
-        exit 1
-      else
-        mkdir /home/yaman/$(Build.Repository.Name)
-        cp $ARQUIVO_ENVIAR /home/yaman/$(Build.Repository.Name)
-        aplicacao="/home/yaman/$(Build.Repository.Name)"
+    if [ -z "$ARQUIVO_ENVIAR" ]; then
+      echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
+      exit 1
     fi
 
     # Comando curl para enviar o arquivo
-    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$aplicacao" "$(nexusHost)/repository/$repo"
+    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$ARQUIVO_ENVIAR" "$(nexusHost)/repository/$repo/"
 
     # Imprimir mensagem de conclusão
     echo "Arquivo $ARQUIVO_ENVIAR enviado para $URL_DESTINO"
