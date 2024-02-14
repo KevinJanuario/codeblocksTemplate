@@ -10,7 +10,7 @@ steps:
     # cd /opt/app/Trunk/C-Fontes/ptptrpro
     # make -f Makefile.FreeImage all
     
-    repo=perto-${{ parameters.buildType }}
+    repo="perto-${{ parameters.buildType }}/$(Build.Repository.Name)"
     artifactPath="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/FreeImage.3.15.1/Dist/"
     artifact="*.so"
 
