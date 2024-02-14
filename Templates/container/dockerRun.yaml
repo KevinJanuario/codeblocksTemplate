@@ -27,7 +27,7 @@ steps:
     fi
 
     # Comando curl para enviar o arquivo
-    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$ARQUIVO_ENVIAR" "$URL_DESTINO/$(Build.Repository.Name)"
+    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$ARQUIVO_ENVIAR" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
 
     # Imprimir mensagem de conclusão
     echo "Arquivo $ARQUIVO_ENVIAR enviado para $URL_DESTINO"
