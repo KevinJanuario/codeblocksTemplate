@@ -12,7 +12,7 @@ steps:
     
     repo="perto-${{ parameters.buildType }}/$(Build.Repository.Name)"
     artifactPath="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/"
-    artifact="*.so*"
+    artifact="*.so"
 
     # URL de destino no Nexus
     URL_DESTINO="$(nexusHost)/repository/$repo"
