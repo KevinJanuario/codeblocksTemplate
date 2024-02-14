@@ -1,13 +1,13 @@
 parameters:
   - name: buildType
-    default: 'dockerBuild'
+    default: 'c'
   - name: agentPoolWin
     default: Default
   - name: agentPool
     default: Dev
 
 stages:
-   - ${{ if eq(parameters.buildType, 'dockerBuild') }}:
+   - ${{ if eq(parameters.buildType, 'c') }}:
       stage:
       jobs:
         - job: Build_${{ parameters.buildType }}
