@@ -11,12 +11,26 @@ steps:
     # make -f Makefile.FreeImage all
     
     repo=perto-${{ parameters.buildType }}
-    artefato="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/FreeImage.3.15.1/Dist/*.so"
+    artifactPath="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/FreeImage.3.15.1/Dist/"
+    artifact="*.so"
+
+    # URL de destino no Nexus
+    URL_DESTINO="$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
+
+    # Encontrar o caminho completo do arquivo
+    ARQUIVO_ENVIAR=$(find "$artifactPath" -name "$artifact" -type f)
+
+    # Verificar se um arquivo foi encontrado
+    if [ -z "$ARQUIVO_ENVIAR" ]; then
+      echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
+      exit 1
+    fi
 
     # Comando curl para enviar o arquivo
-    curl -s -w "$(nexusUser):$(nexusPass)" --upload-file "$artefato" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
+    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$ARQUIVO_ENVIAR" "$URL_DESTINO"
 
-    docker rm -f $(Build.Repository.Name)
+    # Imprimir mensagem de conclusão
+    echo "Arquivo $ARQUIVO_ENVIAR enviado para $URL_DESTINO"
  
   displayName: 'Execute Script inside Container'
   condition: succeeded()
