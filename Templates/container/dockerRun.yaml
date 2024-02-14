@@ -26,17 +26,19 @@ steps:
         echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
         exit 1
       else
-        aplicacao="mkdir $(Build.Repository.Name) && cp $ARQUIVO_ENVIAR $(Build.Repository.Name)"
+        mkdir /home/yaman/$(Build.Repository.Name)
+        cp $ARQUIVO_ENVIAR /home/yaman/$(Build.Repository.Name)
+        aplicacao="/home/yaman/$(Build.Repository.Name)"
     fi
 
     # Comando curl para enviar o arquivo
-    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$aplicacao" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
+    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$aplicacao" "$(nexusHost)/repository/$repo"
 
     # Imprimir mensagem de conclusão
     echo "Arquivo $ARQUIVO_ENVIAR enviado para $URL_DESTINO"
 
     docker rm -f $(Build.Repository.Name)
-    rm -r $(Build.Repository.Name)
+
   displayName: 'Execute Script inside Container'
   condition: succeeded()
   continueOnError: false
