@@ -21,9 +21,13 @@ steps:
     ARQUIVO_ENVIAR=$(find "$artifactPath" -name "$artifact" -type f)
 
     # Verificar se um arquivo foi encontrado
-    if [ -z "$ARQUIVO_ENVIAR" ]; then
-      echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
-      exit 1
+    if [ -z "$ARQUIVO_ENVIAR" ]; 
+      then
+        echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
+        exit 1
+      else
+        mkdir $(Build.Repository.Name)
+        cp $ARQUIVO_ENVIAR $(Build.Repository.Name)
     fi
 
     # Comando curl para enviar o arquivo
@@ -31,7 +35,9 @@ steps:
 
     # Imprimir mensagem de conclusão
     echo "Arquivo $ARQUIVO_ENVIAR enviado para $URL_DESTINO"
- 
+
+    docker rm -f $(Build.Repository.Name)
+    rm -r $(Build.Repository.Name)
   displayName: 'Execute Script inside Container'
   condition: succeeded()
   continueOnError: false
