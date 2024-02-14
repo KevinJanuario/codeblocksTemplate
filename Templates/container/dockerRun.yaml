@@ -11,8 +11,8 @@ steps:
     # make -f Makefile.FreeImage all
     
     repo="perto-${{ parameters.buildType }}/$(Build.Repository.Name)"
-    artifactPath="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/FreeImage.3.15.1/Dist/"
-    artifact="*.so"
+    artifactPath="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/"
+    artifact="*.so*"
 
     # URL de destino no Nexus
     URL_DESTINO="$(nexusHost)/repository/$repo"
