@@ -14,7 +14,7 @@ steps:
     artefato="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro/FreeImage.3.15.1/Dist/*.so"
 
     # Comando curl para enviar o arquivo
-    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$artefato" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
+    curl -s -w "$(nexusUser):$(nexusPass)" --upload-file "$artefato" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
 
     docker rm -f $(Build.Repository.Name)
  
@@ -22,10 +22,10 @@ steps:
   condition: succeeded()
   continueOnError: false
  
-- task: PublishBuildArtifacts@1
-  displayName: "Publish image debian 9"
-  condition: succeededOrFailed()
-  inputs:
-    PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
-    ArtifactName: "debian-9"
-    publishLocation: "Container"
+# - task: PublishBuildArtifacts@1
+#   displayName: "Publish image debian 9"
+#   condition: succeededOrFailed()
+#   inputs:
+#     PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
+#     ArtifactName: "debian-9"
+#     publishLocation: "Container"
