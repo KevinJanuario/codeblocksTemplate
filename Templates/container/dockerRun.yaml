@@ -26,12 +26,11 @@ steps:
         echo "Nenhum arquivo correspondente encontrado em $artifactPath com o padrão $artifact"
         exit 1
       else
-        mkdir $(Build.Repository.Name)
-        cp $ARQUIVO_ENVIAR $(Build.Repository.Name)
+        aplicacao="mkdir $(Build.Repository.Name) && cp $ARQUIVO_ENVIAR $(Build.Repository.Name)"
     fi
 
     # Comando curl para enviar o arquivo
-    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$ARQUIVO_ENVIAR" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
+    curl -u "$(nexusUser):$(nexusPass)" --upload-file "$aplicacao" "$(nexusHost)/repository/$repo/$(Build.Repository.Name)"
 
     # Imprimir mensagem de conclusão
     echo "Arquivo $ARQUIVO_ENVIAR enviado para $URL_DESTINO"
