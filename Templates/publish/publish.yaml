@@ -34,7 +34,7 @@ steps:
 
   - bash: |
        set -e
-       repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)/$(Build.Repository.Name)"
+       repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
        art=$(Artifact)
       
        for artifact in $(find $art -type f) ; do
