@@ -5,6 +5,8 @@ parameters:
     default: Default
   - name: agentPool
     default: Dev
+  - name: setor
+    default: ''
 
 stages:
    - ${{ if eq(parameters.buildType, 'c') }}:
@@ -17,3 +19,4 @@ stages:
             - template: Templates/container/dockerRun.yaml
               parameters:
                 buildType: ${{ parameters.buildType }}
+                setor: ${{ parameters.setor }}
