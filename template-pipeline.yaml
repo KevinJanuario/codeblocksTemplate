@@ -25,6 +25,9 @@ parameters:
     default: 'none'
   - name: sonarProp
     default: ''
+  - name: setor
+    default: ''
+
 
 stages:
   - ${{ if eq(parameters.enableSonar, true) }}:
@@ -68,6 +71,7 @@ stages:
               - template: Templates/publish/publish.yaml
                 parameters:
                   buildType: ${{ parameters.buildType }}
+                  setor: ${{ parameters.setor }}
       - ${{ if ne(parameters.vcxprojPath, 'none') }}:
           - job: Build_${{ parameters.buildType }}
             pool:
@@ -85,6 +89,7 @@ stages:
                 parameters:
                   vcxprojPath: ${{ parameters.vcxprojPath }}
                   buildType: ${{ parameters.buildType }}
+                  setor: ${{ parameters.setor }}
   - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
     - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
       jobs:
@@ -100,4 +105,4 @@ stages:
             - template: Templates/publish/publishWin.yaml
               parameters:
                 buildType: ${{ parameters.buildType }}
-
+                setor: ${{ parameters.setor }}

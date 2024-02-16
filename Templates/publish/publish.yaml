@@ -3,6 +3,7 @@ parameters:
   - name: buildType
   - name: vcxprojPath
     default: 'none'
+  - name: setor 
 
 steps:
   - ${{ if ne(parameters.vcxprojPath, 'none') }}:
@@ -33,7 +34,7 @@ steps:
 
   - bash: |
        set -e
-       repo=perto-${{ parameters.buildType }}
+       repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
        art=$(Artifact)
       
        for artifact in $(find $art -type f) ; do
