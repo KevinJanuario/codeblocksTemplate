@@ -100,9 +100,11 @@ stages:
             - template: Templates/build/checkoutWin.yaml
               parameters:
                 buildTypeWindows: ${{ parameters.buildTypeWindows }}
+                buildtype: ${{ parameters.buildtype }}
                 Version: ${{ parameters.Version }}
                 Version32: ${{ parameters.Version32 }}
             - template: Templates/publish/publishWin.yaml
               parameters:
-                buildType: ${{ parameters.buildType }}
+                buildTypeWindows: ${{ parameters.buildTypeWindows }}
+                buildtype: ${{ parameters.buildtype }}
                 setor: ${{ parameters.setor }}
