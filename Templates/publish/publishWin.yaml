@@ -4,7 +4,7 @@ parameters:
     default: 'c_windows'
   - name: setor
   - name: buildType
-    default: 'dotnet-C#'
+    default: 'dotnet_C'
 
 
 steps:
@@ -29,7 +29,7 @@ steps:
         }
       displayName: 'Deploy to Nexus'
   
-  - ${{ if eq(parameters.buildType, 'dotnet-C#') }}:
+  - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
       - checkout: none
 
       - powershell: |
