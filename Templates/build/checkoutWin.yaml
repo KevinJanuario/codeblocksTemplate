@@ -112,19 +112,19 @@ steps:
             Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
         displayName: CreateOutputDir
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Dotnet Build'
-        inputs:
-          command: 'build'
-          projects: '**/*.${{ parameters.dotNetProjects }}'
-          modifyOutputPath: true
-          arguments: '--output $(Artifact)-temp'
+    - task: DotNetCoreCLI@2
+      displayName: 'Dotnet Build'
+      inputs:
+        command: 'build'
+        projects: '**/*.${{ parameters.dotNetProjects }}'
+        modifyOutputPath: true
+        arguments: '--output $(Artifact)-temp'
 
-      - task: ArchiveFiles@2
-        displayName: 'Zip Repository Content'
-        inputs:
-          rootFolderOrFile: '$(Artifact)-temp'
-          includeRootFolder: false
-          archiveType: 'zip'
-          archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name)/$(Build.Repository.Name)-$(Build.BuildId).zip'
-          replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: 'Zip Repository Content'
+      inputs:
+        rootFolderOrFile: '$(Artifact)-temp'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name)/$(Build.Repository.Name)-$(Build.BuildId).zip'
+        replaceExistingArchive: true
