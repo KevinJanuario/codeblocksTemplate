@@ -30,16 +30,16 @@ steps:
       displayName: 'Deploy to Nexus'
   
   - ${{ if eq(parameters.buildType, 'dotnet-C#') }}:
-      checkout: none
+      - checkout: none
 
-      powershell: |
-        $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}\artifact"
-        Write-Host "[+] Criando diretório $artifactPath"
-        New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
-        New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
-        Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
-        Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
-      displayName: CreateOutputDir
+      - powershell: |
+          $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}\artifact"
+          Write-Host "[+] Criando diretório $artifactPath"
+          New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
+          New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
+          Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
+          Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
+        displayName: CreateOutputDir
 
       - task: DownloadBuildArtifacts@0
         inputs:
@@ -48,12 +48,12 @@ steps:
           artifactName: '$(Build.Repository.Name)'
           downloadPath: '$(Artifact)'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Artifact)'
-        artifactName: 'artifact-${{ parameters.buildType }}'
-      condition: succeeded()
-      displayName: 'Publish Artifacts'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Artifact)'
+      artifactName: 'artifact-${{ parameters.buildType }}'
+    condition: succeeded()
+    displayName: 'Publish Artifacts'
     
   - powershell: |
       # Define variáveis
