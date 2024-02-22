@@ -104,27 +104,27 @@ steps:
 
   - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
       - powershell: |
-            $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
-            Write-Host "[+] Criando diretório $artifactPath"
-            New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
-            New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
-            Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
-            Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
+              $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
+              Write-Host "[+] Criando diretório $artifactPath"
+              New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
+              New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
+              Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
+              Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
         displayName: CreateOutputDir
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Dotnet Build'
-      inputs:
-        command: 'build'
-        projects: '**/*.${{ parameters.dotNetProjects }}'
-        modifyOutputPath: true
-        arguments: '--output $(Artifact)-temp'
+      - task: DotNetCoreCLI@2
+        displayName: 'Dotnet Build'
+        inputs:
+          command: 'build'
+          projects: '**/*.${{ parameters.dotNetProjects }}'
+          modifyOutputPath: true
+          arguments: '--output $(Artifact)-temp'
 
-    - task: ArchiveFiles@2
-      displayName: 'Zip Repository Content'
-      inputs:
-        rootFolderOrFile: '$(Artifact)-temp'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name)/$(Build.Repository.Name)-$(Build.BuildId).zip'
-        replaceExistingArchive: true
+      - task: ArchiveFiles@2
+        displayName: 'Zip Repository Content'
+        inputs:
+          rootFolderOrFile: '$(Artifact)-temp'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name)/$(Build.Repository.Name)-$(Build.BuildId).zip'
+          replaceExistingArchive: true
