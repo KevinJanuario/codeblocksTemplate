@@ -117,7 +117,7 @@ steps:
         displayName: 'Dotnet Build'
         inputs:
           command: 'build'
-          projects: '**/*.csproj'
+          projects: '$(Build.SourcesDirectory)/*.csproj'
           modifyOutputPath: true
           arguments: '--output $(Artifact)-temp'
 
