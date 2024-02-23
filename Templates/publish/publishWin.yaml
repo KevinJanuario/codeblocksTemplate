@@ -40,12 +40,12 @@ steps:
             Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
         displayName: CreateOutputDir
 
-      - task: DownloadBuildArtifacts@0
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: '$(Build.Repository.Name)'
-          downloadPath: '$(Artifact)'
+      # - task: DownloadBuildArtifacts@0
+      #   inputs:
+      #     buildType: 'current'
+      #     downloadType: 'single'
+      #     artifactName: '$(Build.Repository.Name)'
+      #     downloadPath: '$(Artifact)'
 
       - task: PublishBuildArtifacts@1
         inputs:
