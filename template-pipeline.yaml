@@ -108,7 +108,8 @@ stages:
                 parameters:
                   buildTypeWindows: ${{ parameters.buildTypeWindows }}
                   setor: ${{ parameters.setor }}
-   - stage: BuildAndPush_${{ parameters.buildType_C }}
+  - stage: BuildAndPush_${{ parameters.buildType_C }}
+    jobs:
       - ${{ if eq(parameters.buildType_C, 'dotnet_C') }}:
           - job: Build_${{ parameters.buildType_C }}
             pool:
