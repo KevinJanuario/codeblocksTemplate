@@ -112,14 +112,21 @@ steps:
             Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
             Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
         displayName: CreateOutputDir
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Dotnet Build'
-        inputs:
-          command: 'build'
-          projects: '$(Build.SourcesDirectory)/*.csproj'
-          modifyOutputPath: true
-          arguments: '--output $(Artifact)-temp'
+      
+      - powershell: |
+            # Execute o build do projeto csproj
+            dotnet build $(Build.SourcesDirectory)
+            # Copie o resultado do build para a pasta de destino
+            Copy-Item -Path "$(Build.SourcesDirectory)\bin" -Destination $(Artifact)-temp -Recurse
+        displayName: 'Build'
+      
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Dotnet Build'
+      #   inputs:
+      #     command: 'build'
+      #     projects: '$(Build.SourcesDirectory)/*.csproj'
+      #     modifyOutputPath: true
+      #     arguments: '--output $(Artifact)-temp'
 
       - task: ArchiveFiles@2
         displayName: 'Zip Repository Content'
