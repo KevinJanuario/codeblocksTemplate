@@ -59,7 +59,7 @@ steps:
             $repo = "$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
             $art = Get-Item -LiteralPath $(Artifact)
             $authInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$(nexusUser):$(nexusPass)"))
-            $file=$(Artifact)
+            $file="$(Artifact)\"
 
             # Encontrar o caminho completo do arquivo
             ARQUIVO_ENVIAR=$(find "$file" -name "$(Build.Repository.Name)" -type f)
