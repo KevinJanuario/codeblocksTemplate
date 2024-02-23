@@ -40,8 +40,8 @@ steps:
               
               # Executar comandos no CodeBlocks se a versão for 64
               $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
-              $projectFile = "*.cbp"          
-              $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+              $projectFile = "*.cbp"
+              $projectPath = "$(Build.SourcesDirectory)\"
               Write-Host "$projectPath"
 
               # Executar comandos no CodeBlocks
@@ -85,8 +85,8 @@ steps:
               
               # Executar comandos no CodeBlocks se a versão for 32
               $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
-              $projectFile = "*.cbp"          
-              $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+              $projectFile = "*.cbp"
+              $projectPath = "$(Build.SourcesDirectory)\"
               Write-Host "$projectPath"
 
               # Executar comandos no CodeBlocks

@@ -11,8 +11,8 @@ steps:
     - powershell: |
         $repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)/$(Build.Repository.Name)"
         $authInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$(nexusUser):$(nexusPass)"))
-        $file32 = "$(Build.SourcesDirectory)\Trunk\C-Fontes\bin\Windows\Release\x86\*"
-        $file64 = "$(Build.SourcesDirectory)\Trunk\C-Fontes\bin\Windows\Release\x64\*"
+        $file32 = "$(Build.SourcesDirectory)\bin\Windows\Release\x86\*"
+        $file64 = "$(Build.SourcesDirectory)\bin\Windows\Release\x64\*"
   
         # Usar loop para tratar múltiplos arquivos, já que -InFile não suporta wildcard (*.dll)
         Get-ChildItem -Path $file32 | ForEach-Object {
