@@ -44,7 +44,7 @@ steps:
         inputs:
           buildType: 'current'
           downloadType: 'single'
-          artifactName: '$(Build.Repository.Name)'
+          artifactName: '$(Build.Repository.Name)-$(Build.BuildId)'
           downloadPath: '$(Artifact)'
 
   - task: PublishBuildArtifacts@1
