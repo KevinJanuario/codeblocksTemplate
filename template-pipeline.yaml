@@ -107,7 +107,7 @@ stages:
                   buildTypeWindows: ${{ parameters.buildTypeWindows }}
                   setor: ${{ parameters.setor }}
       - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
-          - job: Build_${{ parameters.buildTypeC }}
+          - job: Build_${{ parameters.buildType }}
             pool:
               name: ${{ parameters.agentPoolWin }}
             steps:
