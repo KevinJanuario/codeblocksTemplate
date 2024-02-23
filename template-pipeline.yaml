@@ -90,8 +90,6 @@ stages:
                   vcxprojPath: ${{ parameters.vcxprojPath }}
                   buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
-  - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
-    jobs:
       - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
           - job: Build_${{ parameters.buildTypeWindows }}
             pool:
@@ -118,3 +116,5 @@ stages:
                 parameters:
                   buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
+  # - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
+  #   jobs:
