@@ -1,0 +1,82 @@
+parameters:
+  - name: enableSonar
+    default: true
+  - name: enableGitLeaks
+    default: true
+  - name: enableCodeScan
+    default: false
+  - name: buildType_C
+    default: 'dotnet_C'
+  - name: buildTypeWindows
+    default: 'c_windows'
+  - name: agentPoolWin
+    default: Default
+  - name: Version
+    default: '64'
+  - name: Version32
+    default: '32'
+  - name: sourcePath
+    default: '.'
+  - name: dotNetProjects
+    default: 'csproj'
+  - name: sonarProp
+    default: ''
+  - name: setor
+    default: ''
+
+
+stages:
+  - ${{ if eq(parameters.enableSonar, true) }}:
+    - stage: CheckRepository_${{ parameters.buildType }}
+      jobs: 
+        - job: Sonar_${{ parameters.buildType }}
+          pool:
+            name: ${{ parameters.agentPool }}
+          steps:
+            - template: Templates/checks/sonar.yaml
+              parameters:
+                buildType: ${{ parameters.buildType }}
+                dotNetProjects: ${{ parameters.dotNetProjects }}
+                vcxprojPath: ${{ parameters.vcxprojPath }}
+                sonarProp: ${{ parameters.sonarProp }}
+
+        - ${{ if eq(parameters.enableGitleaks, true) }}:
+            - job: Gitleaks_${{ parameters.buildType }}
+              pool:
+                name: ${{ parameters.agentPool }}
+              steps:
+                - template: Templates/checks/gitleaks.yaml
+        - ${{ if eq(parameters.enableCodeScan, true) }}:
+            - job: CodeScan_${{ parameters.buildType }}
+              pool:
+                name: ${{ parameters.agentPool }}
+              steps:
+                - template: Templates/checks/slscan.yaml
+  - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
+    jobs:
+      - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
+          - job: Build_${{ parameters.buildTypeWindows }}
+            pool:
+              name: ${{ parameters.agentPoolWin }}
+            steps:
+              - template: Templates/build/checkoutWin.yaml
+                parameters:
+                  buildTypeWindows: ${{ parameters.buildTypeWindows }}
+                  Version: ${{ parameters.Version }}
+                  Version32: ${{ parameters.Version32 }}
+              - template: Templates/publish/publishWin.yaml
+                parameters:
+                  buildTypeWindows: ${{ parameters.buildTypeWindows }}
+                  setor: ${{ parameters.setor }}
+      - ${{ if eq(parameters.buildType_C, 'dotnet_C') }}:
+          - job: Build_${{ parameters.buildType_C }}
+            pool:
+              name: ${{ parameters.agentPoolWin }}
+            steps:
+              - template: Templates/build/checkoutWin.yaml
+                parameters:
+                  buildType_C: ${{ parameters.buildType_C }}
+              - template: Templates/publish/publishWin.yaml
+                parameters:
+                  buildType_C: ${{ parameters.buildType_C }}
+                  setor: ${{ parameters.setor }}
