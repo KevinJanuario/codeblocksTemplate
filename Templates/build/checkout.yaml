@@ -17,8 +17,7 @@ steps:
             BLUE="\e[1;36m"
             if [[ ${{ parameters.sourcePath }} == '.' ]] ; then
                 echo -e "${GREEN} [+] Path: ${{ parameters.sourcePath }}"
-                CBP_PATH=$(find ./ -name $(Build.SourcesDirectory) -type d | head -1)
-                cd $CBP_PATH
+                cd $(Build.SourcesDirectory)
             else
                   echo -e "${GREEN} [+] Path: ${{ parameters.sourcePath }}"
                   cd ${{ parameters.sourcePath }}
