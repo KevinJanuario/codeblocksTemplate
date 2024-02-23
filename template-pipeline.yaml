@@ -5,12 +5,10 @@ parameters:
     default: true
   - name: enableCodeScan
     default: false
-  - name: buildType_C
-    default: 'dotnet_C'
   - name: buildType
-    default: 'c'
+    default: ''
   - name: buildTypeWindows
-    default: 'c_windows'
+    default: ''
   - name: agentPool
     default: Dev
   - name: agentPoolWin
@@ -92,6 +90,19 @@ stages:
                   vcxprojPath: ${{ parameters.vcxprojPath }}
                   buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
+      - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
+          - job: Build_${{ parameters.buildType }}
+            pool:
+              name: ${{ parameters.agentPoolWin }}
+            steps:
+              - template: Templates/build/checkoutWin.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+              - template: Templates/publish/publishWin.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+                  setor: ${{ parameters.setor }}
+
   - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
     jobs:
       - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
@@ -107,18 +118,4 @@ stages:
               - template: Templates/publish/publishWin.yaml
                 parameters:
                   buildTypeWindows: ${{ parameters.buildTypeWindows }}
-                  setor: ${{ parameters.setor }}
-  - stage: BuildAndPush_${{ parameters.buildType_C }}
-    jobs:
-      - ${{ if eq(parameters.buildType_C, 'dotnet_C') }}:
-          - job: Build_${{ parameters.buildType_C }}
-            pool:
-              name: ${{ parameters.agentPoolWin }}
-            steps:
-              - template: Templates/build/checkoutWin.yaml
-                parameters:
-                  buildType_C: ${{ parameters.buildType_C }}
-              - template: Templates/publish/publishWin.yaml
-                parameters:
-                  buildType_C: ${{ parameters.buildType_C }}
                   setor: ${{ parameters.setor }}
