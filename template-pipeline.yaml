@@ -10,7 +10,7 @@ parameters:
   - name: buildTypeWindows
     default: 'c_windows'
   - name: buildTypeC
-  default: 'dotnet_C'
+    default: 'dotnet_C'
   - name: agentPool
     default: Dev
   - name: agentPoolWin
