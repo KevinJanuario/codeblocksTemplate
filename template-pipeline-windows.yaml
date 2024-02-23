@@ -24,7 +24,7 @@ parameters:
 
 
 stages:
-  - stage: BuildAndPushWindows_${{ parameters.buildType }}
+  - stage: Build_${{ parameters.buildType }}
     jobs:
       - ${{ if eq(parameters.buildType, 'c_windows') }}:
           - job: Build_${{ parameters.buildType }}
@@ -40,7 +40,7 @@ stages:
                 parameters:
                   buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
-      - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
+      - ${{ if eq(parameters.buildType, 'dotnet') }}:
           - job: Build_${{ parameters.buildType }}
             pool:
               name: ${{ parameters.agentPoolWin }}

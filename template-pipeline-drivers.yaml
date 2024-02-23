@@ -1,8 +1,6 @@
 parameters:
   - name: buildType
     default: 'c'
-  - name: agentPoolWin
-    default: Default
   - name: agentPool
     default: Dev
   - name: setor

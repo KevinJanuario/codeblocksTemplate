@@ -1,7 +1,5 @@
 ---
 parameters:
-  # - name: buildTypeWindows
-  #   default: 'c_windows'
   - name: Version
     default: '64'
   - name: Version32
@@ -103,7 +101,7 @@ steps:
               VERSION: ${{ parameters.Version32 }}
   
 
-  - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
+  - ${{ if eq(parameters.buildType, 'dotnet') }}:
       - powershell: |
             $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
             Write-Host "[+] Criando diretório $artifactPath"
