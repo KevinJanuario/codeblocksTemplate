@@ -6,7 +6,7 @@ parameters:
   - name: enableCodeScan
     default: false
   - name: buildType
-    default: 'c_windows'
+    default: ''
   - name: agentPoolWin
     default: Default
   - name: Version

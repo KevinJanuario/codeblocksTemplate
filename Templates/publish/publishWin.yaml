@@ -1,14 +1,14 @@
 ---
 parameters:
-  - name: buildTypeWindows
-    default: 'c_windows'
+  # - name: buildTypeWindows
+  #   default: 'c_windows'
   - name: setor
   - name: buildType
-    default: 'dotnet_C'
+    default: ''
 
 
 steps:
-  - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
+  - ${{ if eq(parameters.buildType, 'c_windows') }}:
     - powershell: |
         $repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)/$(Build.Repository.Name)"
         $authInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$(nexusUser):$(nexusPass)"))
