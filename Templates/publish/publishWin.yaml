@@ -59,14 +59,11 @@ steps:
             $repo = "$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
             $art = Get-Item -LiteralPath $(Artifact)
             $authInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$(nexusUser):$(nexusPass)"))
-            $file="$(Artifact)\"
-
-            # Encontrar o caminho completo do arquivo
-            ARQUIVO_ENVIAR=$(find "$file" -name "$(Build.Repository.Name)" -type f)
+            $file="$(Artifact)\$(Build.Repository.Name)"
 
             # Usar loop para tratar múltiplos arquivos, já que -InFile não suporta wildcard (*.dll)
-            Get-ChildItem -Path $ARQUIVO_ENVIAR | ForEach-Object {
-              Invoke-WebRequest -Uri "$(nexusHost)/repository/$repo/$(Build.Repository.Name)/$($_.Name)" -Method Put -Headers @{
+            Get-ChildItem -Path $file | ForEach-Object {
+              Invoke-WebRequest -Uri "$(nexusHost)/repository/$repo/$($_.Name)" -Method Put -Headers @{
                   Authorization = "Basic $authInfo"
               } -InFile $_.FullName -UseBasicParsing
             }
