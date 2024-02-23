@@ -22,7 +22,7 @@ parameters:
   - name: dotNetProjects
     default: 'csproj'
   - name: vcxprojPath
-    default: ''
+    default: 'none'
   - name: sonarProp
     default: ''
   - name: setor
