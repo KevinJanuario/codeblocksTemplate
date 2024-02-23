@@ -46,7 +46,7 @@ steps:
           buildType: 'current'
           downloadType: 'single'
           artifactName: '$(Build.Repository.Name)'
-          downloadPath: '$(Artifact)'
+          downloadPath: '$(Artifact)-temp'
 
   - task: PublishBuildArtifacts@1
     inputs:
