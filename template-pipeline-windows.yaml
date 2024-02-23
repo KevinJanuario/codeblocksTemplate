@@ -38,7 +38,7 @@ stages:
                   Version32: ${{ parameters.Version32 }}
               - template: Templates/publish/publishWin.yaml
                 parameters:
-                  buildTypeWindows: ${{ parameters.buildType }}
+                  buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
       - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
           - job: Build_${{ parameters.buildType }}
