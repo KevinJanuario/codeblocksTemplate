@@ -40,8 +40,8 @@ steps:
               
               # Executar comandos no CodeBlocks se a versão for 64
               $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
-              $projectFile = "*.cbp"          
-              $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+              $projectFile = "*.cbp"
+              $projectPath = "$(Build.SourcesDirectory)\"
               Write-Host "$projectPath"
 
               # Executar comandos no CodeBlocks
@@ -85,8 +85,8 @@ steps:
               
               # Executar comandos no CodeBlocks se a versão for 32
               $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
-              $projectFile = "*.cbp"          
-              $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+              $projectFile = "*.cbp"
+              $projectPath = "$(Build.SourcesDirectory)\"
               Write-Host "$projectPath"
 
               # Executar comandos no CodeBlocks
@@ -117,14 +117,6 @@ steps:
             # Copie o resultado do build para a pasta de destino
             Copy-Item -Path "$(Build.SourcesDirectory)\bin" -Destination $(Artifact)-temp -Recurse
         displayName: 'Build'
-      
-      # - task: DotNetCoreCLI@2
-      #   displayName: 'Dotnet Build'
-      #   inputs:
-      #     command: 'build'
-      #     projects: '$(Build.SourcesDirectory)/*.csproj'
-      #     modifyOutputPath: true
-      #     arguments: '--output $(Artifact)-temp'
 
       - task: ArchiveFiles@2
         displayName: 'Zip Repository Content'

@@ -7,10 +7,10 @@ steps:
 - script: |
     docker pull yamandevops/debian:9 
     docker run -d --name $(Build.Repository.Name) -v $(Build.SourcesDirectory):/opt/app -it docker.io/yamandevops/debian:9 /bin/bash
-    docker exec $(Build.Repository.Name) bash -c "cd /opt/app/Trunk/C-Fontes/ptptrpro && make -f Makefile.freeimage clean && make -f Makefile.freeimage all"
+    docker exec $(Build.Repository.Name) bash -c "cd /opt/app/ptptrpro && make -f Makefile.freeimage clean && make -f Makefile.freeimage all"
     
     repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)/$(Build.Repository.Name)"
-    artifactPath="$(Build.SourcesDirectory)/Trunk/C-Fontes/ptptrpro"
+    artifactPath="$(Build.SourcesDirectory)/ptptrpro"
     artifact="*.so.*.*.*"
 
     # URL de destino no Nexus
