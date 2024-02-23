@@ -32,9 +32,9 @@ steps:
       - checkout: none
 
       - powershell: |
-            $artifactPath="C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
+            $artifactPath="C:\temp\$(Build.BuildId)-${{ parameters.buildType }}\artifact"
             Write-Host "[+] Criando diretório $artifactPath"
-            New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
+            New-Item -ItemType Directory -Path "$artifactPath\$(Build.Repository.Name)" -Force
             New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
             Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
             Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
