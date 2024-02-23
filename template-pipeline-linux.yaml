@@ -6,17 +6,9 @@ parameters:
   - name: enableCodeScan
     default: false
   - name: buildType
-    default: 'c'
-  - name: buildTypeWindows
-    default: 'c_windows'
+    default: ''
   - name: agentPool
     default: Dev
-  - name: agentPoolWin
-    default: Default
-  - name: Version
-    default: '64'
-  - name: Version32
-    default: '32'
   - name: sourcePath
     default: '.'
   - name: dotNetProjects
@@ -90,19 +82,5 @@ stages:
                   vcxprojPath: ${{ parameters.vcxprojPath }}
                   buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
-  - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
-    - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
-      jobs:
-        - job: Build_${{ parameters.buildTypeWindows }}
-          pool:
-            name: ${{ parameters.agentPoolWin }}
-          steps:
-            - template: Templates/build/checkoutWin.yaml
-              parameters:
-                buildTypeWindows: ${{ parameters.buildTypeWindows }}
-                Version: ${{ parameters.Version }}
-                Version32: ${{ parameters.Version32 }}
-            - template: Templates/publish/publishWin.yaml
-              parameters:
-                buildType: ${{ parameters.buildType }}
-                setor: ${{ parameters.setor }}
+
+

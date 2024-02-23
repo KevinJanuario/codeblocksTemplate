@@ -1,0 +1,54 @@
+parameters:
+  - name: enableSonar
+    default: true
+  - name: enableGitLeaks
+    default: true
+  - name: enableCodeScan
+    default: false
+  - name: buildType
+    default: ''
+  - name: agentPoolWin
+    default: Default
+  - name: Version
+    default: '64'
+  - name: Version32
+    default: '32'
+  - name: sourcePath
+    default: '.'
+  - name: dotNetProjects
+    default: 'csproj'
+  - name: sonarProp
+    default: ''
+  - name: setor
+    default: ''
+
+
+stages:
+  - stage: Build_${{ parameters.buildType }}
+    jobs:
+      - ${{ if eq(parameters.buildType, 'c_windows') }}:
+          - job: Build_${{ parameters.buildType }}
+            pool:
+              name: ${{ parameters.agentPoolWin }}
+            steps:
+              - template: Templates/build/checkoutWin.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+                  Version: ${{ parameters.Version }}
+                  Version32: ${{ parameters.Version32 }}
+              - template: Templates/publish/publishWin.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+                  setor: ${{ parameters.setor }}
+      - ${{ if eq(parameters.buildType, 'dotnet') }}:
+          - job: Build_${{ parameters.buildType }}
+            pool:
+              name: ${{ parameters.agentPoolWin }}
+            steps:
+              - template: Templates/build/checkoutWin.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+              - template: Templates/publish/publishWin.yaml
+                parameters:
+                  buildType: ${{ parameters.buildType }}
+                  setor: ${{ parameters.setor }}

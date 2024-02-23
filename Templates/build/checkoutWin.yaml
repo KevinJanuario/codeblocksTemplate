@@ -1,98 +1,136 @@
+---
 parameters:
-  - name: buildTypeWindows
-    default: 'c_windows'
   - name: Version
     default: '64'
   - name: Version32
     default: '32'
+  - name: buildType
+    default: ''
+  - name: dotNetProjects
+    default: 'csproj'
 
 steps:
-  - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
-    - ${{ if eq(parameters.Version, '64') }}:
-        - powershell: |
-            $Version = [int]$env:VERSION
+  - ${{ if eq(parameters.buildType, 'c_windows') }}:
+      - ${{ if eq(parameters.Version, '64') }}:
+          - powershell: |
+              $Version = [int]$env:VERSION
 
-            # Definir o caminho base para a pasta mingw
-            $mingwBasePath = "C:\Compiladores\mingw"
-            
-            # Remover a pasta C:\Compiladores\mingw se ela existir
-            if (Test-Path $mingwBasePath) {
-                Remove-Item $mingwBasePath -Recurse -Force
-                Write-Host "Pasta antiga $mingwBasePath removida."
-            }
-            
-            # Definir o caminho do compilador com base no parâmetro
-            $mingwPath = "C:\Compiladores\mingw$Version"
-            
-            # Verificar se o caminho do compilador existe
-            if (-not (Test-Path $mingwPath)) {
-                Write-Host "Caminho do compilador não encontrado: $mingwPath"
-                exit
-            }
-            
-            # Renomear a pasta do compilador para C:\Compiladores\mingw
-            Write-Host "Iniciando cópia de $mingwPath para $mingwBasePath"
-            Copy-Item -Recurse $mingwPath $mingwBasePath
-            Write-Host "Copiado com sucesso"
-            
-            # Executar comandos no CodeBlocks se a versão for 64
-            $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
-            $projectFile = "*.cbp"          
-            $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
-            Write-Host "$projectPath"
+              # Definir o caminho base para a pasta mingw
+              $mingwBasePath = "C:\Compiladores\mingw"
+              
+              # Remover a pasta C:\Compiladores\mingw se ela existir
+              if (Test-Path $mingwBasePath) {
+                  Remove-Item $mingwBasePath -Recurse -Force
+                  Write-Host "Pasta antiga $mingwBasePath removida."
+              }
+              
+              # Definir o caminho do compilador com base no parâmetro
+              $mingwPath = "C:\Compiladores\mingw$Version"
+              
+              # Verificar se o caminho do compilador existe
+              if (-not (Test-Path $mingwPath)) {
+                  Write-Host "Caminho do compilador não encontrado: $mingwPath"
+                  exit
+              }
+              
+              # Renomear a pasta do compilador para C:\Compiladores\mingw
+              Write-Host "Iniciando cópia de $mingwPath para $mingwBasePath"
+              Copy-Item -Recurse $mingwPath $mingwBasePath
+              Write-Host "Copiado com sucesso"
+              
+              # Executar comandos no CodeBlocks se a versão for 64
+              $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
+              $projectFile = "*.cbp"          
+              $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+              Write-Host "$projectPath"
 
-            # Executar comandos no CodeBlocks
-            Push-Location $projectPath
-            Write-Host "Iniciando Build da Aplicação"            
-            & $codeBlocksPath --rebuild $projectFile --target "DLL x64"
-            Start-Sleep -Seconds 60
-            Write-Host "Build feito"
+              # Executar comandos no CodeBlocks
+              Push-Location $projectPath
+              Write-Host "Iniciando Build da Aplicação"            
+              & $codeBlocksPath --rebuild $projectFile --target "DLL x64"
+              Start-Sleep -Seconds 60
+              Write-Host "Build feito"
 
-          displayName: 'Build Windows x64'
-          env:
-            VERSION: ${{ parameters.Version }}
-    
-    - ${{ if eq(parameters.Version32, '32') }}:
-        - powershell: |
-            $Version32 = [int]$env:VERSION
+            displayName: 'Build Windows x64'
+            env:
+              VERSION: ${{ parameters.Version }}
+      
+      - ${{ if eq(parameters.Version32, '32') }}:
+          - powershell: |
+              $Version32 = [int]$env:VERSION
 
-            # Definir o caminho base para a pasta mingw
-            $mingwBasePath = "C:\Compiladores\mingw"
-            
-            # Remover a pasta C:\Compiladores\mingw se ela existir
-            if (Test-Path $mingwBasePath) {
-                Start-Sleep -Seconds 20
-                Remove-Item $mingwBasePath -Recurse -Force
-                Write-Host "Pasta antiga $mingwBasePath removida."
-            }
-            
-            # Definir o caminho do compilador com base no parâmetro
-            $mingwPath = "C:\Compiladores\mingw$Version32"
-            
-            # Verificar se o caminho do compilador existe
-            if (-not (Test-Path $mingwPath)) {
-                Write-Host "Caminho do compilador não encontrado: $mingwPath"
-                exit
-            }
-            
-            # Renomear a pasta do compilador para C:\Compiladores\mingw
-            Write-Host "Iniciando cópia de $mingwPath para $mingwBasePath"
-            Copy-Item -Recurse $mingwPath $mingwBasePath
-            Write-Host "Copiado com sucesso"
-            
-            # Executar comandos no CodeBlocks se a versão for 32
-            $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
-            $projectFile = "*.cbp"          
-            $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
-            Write-Host "$projectPath"
+              # Definir o caminho base para a pasta mingw
+              $mingwBasePath = "C:\Compiladores\mingw"
+              
+              # Remover a pasta C:\Compiladores\mingw se ela existir
+              if (Test-Path $mingwBasePath) {
+                  Start-Sleep -Seconds 20
+                  Remove-Item $mingwBasePath -Recurse -Force
+                  Write-Host "Pasta antiga $mingwBasePath removida."
+              }
+              
+              # Definir o caminho do compilador com base no parâmetro
+              $mingwPath = "C:\Compiladores\mingw$Version32"
+              
+              # Verificar se o caminho do compilador existe
+              if (-not (Test-Path $mingwPath)) {
+                  Write-Host "Caminho do compilador não encontrado: $mingwPath"
+                  exit
+              }
+              
+              # Renomear a pasta do compilador para C:\Compiladores\mingw
+              Write-Host "Iniciando cópia de $mingwPath para $mingwBasePath"
+              Copy-Item -Recurse $mingwPath $mingwBasePath
+              Write-Host "Copiado com sucesso"
+              
+              # Executar comandos no CodeBlocks se a versão for 32
+              $codeBlocksPath = "C:\Compiladores\CodeBlocks\codeblocks.exe"
+              $projectFile = "*.cbp"          
+              $projectPath = "$(Build.SourcesDirectory)\Trunk\C-Fontes\"
+              Write-Host "$projectPath"
 
-            # Executar comandos no CodeBlocks
-            Push-Location $projectPath
-            Write-Host "Iniciando Build da Aplicação"
-            & $codeBlocksPath --rebuild $projectFile --target "DLL x86"
-            Start-Sleep -Seconds 60
-            Write-Host "Build feito"
-          
-          displayName: 'Build Windows x86'
-          env:
-            VERSION: ${{ parameters.Version32 }}
+              # Executar comandos no CodeBlocks
+              Push-Location $projectPath
+              Write-Host "Iniciando Build da Aplicação"
+              & $codeBlocksPath --rebuild $projectFile --target "DLL x86"
+              Start-Sleep -Seconds 60
+              Write-Host "Build feito"
+            
+            displayName: 'Build Windows x86'
+            env:
+              VERSION: ${{ parameters.Version32 }}
+  
+
+  - ${{ if eq(parameters.buildType, 'dotnet') }}:
+      - powershell: |
+            $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
+            Write-Host "[+] Criando diretório $artifactPath"
+            New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
+            New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
+            Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
+            Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
+        displayName: CreateOutputDir
+      
+      - powershell: |
+            # Execute o build do projeto csproj
+            dotnet build $(Build.SourcesDirectory)
+            # Copie o resultado do build para a pasta de destino
+            Copy-Item -Path "$(Build.SourcesDirectory)\bin" -Destination $(Artifact)-temp -Recurse
+        displayName: 'Build'
+      
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Dotnet Build'
+      #   inputs:
+      #     command: 'build'
+      #     projects: '$(Build.SourcesDirectory)/*.csproj'
+      #     modifyOutputPath: true
+      #     arguments: '--output $(Artifact)-temp'
+
+      - task: ArchiveFiles@2
+        displayName: 'Zip Repository Content'
+        inputs:
+          rootFolderOrFile: '$(Artifact)-temp'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Artifact)/artifact/$(Build.Repository.Name)/$(Build.Repository.Name)-$(Build.BuildId).zip'
+          replaceExistingArchive: true
