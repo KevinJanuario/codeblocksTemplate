@@ -51,7 +51,7 @@ steps:
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: '$(Artifact)'
-      artifactName: 'artifact-${{ parameters.buildType }}'
+      artifactName: 'artifact-${{ parameters.buildType_C }}'
     condition: succeeded()
     displayName: 'Publish Artifacts'
     
