@@ -49,7 +49,7 @@ steps:
 
       - powershell: |
             # Define variáveis
-            $repo = "$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
+            $repo = "$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)/$(Build.Repository.Name)"
             $art = Get-Item -LiteralPath $(Artifact)
             $authInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$(nexusUser):$(nexusPass)"))
             $file="$(Artifact)\$(Build.Repository.Name)"
