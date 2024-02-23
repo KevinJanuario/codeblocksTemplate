@@ -6,7 +6,7 @@ parameters:
     default: '64'
   - name: Version32
     default: '32'
-  - name: buildType
+  - name: buildType_C
     default: 'dotnet_C'
   - name: dotNetProjects
     default: 'csproj'
@@ -103,9 +103,9 @@ steps:
             VERSION: ${{ parameters.Version32 }}
   
 
-  - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
+  - ${{ if eq(parameters.buildType_C, 'dotnet_C') }}:
       - powershell: |
-            $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
+            $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType_C }}"
             Write-Host "[+] Criando diretório $artifactPath"
             New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
             New-Item -ItemType Directory -Path "$artifactPath-temp" -Force

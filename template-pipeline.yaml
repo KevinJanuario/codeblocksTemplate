@@ -5,6 +5,8 @@ parameters:
     default: true
   - name: enableCodeScan
     default: false
+  - name: buildType_C
+    default: 'dotnet_C'
   - name: buildType
     default: 'c'
   - name: buildTypeWindows
@@ -106,15 +108,16 @@ stages:
                 parameters:
                   buildTypeWindows: ${{ parameters.buildTypeWindows }}
                   setor: ${{ parameters.setor }}
-      - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
-          - job: Build_${{ parameters.buildType }}
+   - stage: BuildAndPush_${{ parameters.buildType_C }}
+      - ${{ if eq(parameters.buildType_C, 'dotnet_C') }}:
+          - job: Build_${{ parameters.buildType_C }}
             pool:
               name: ${{ parameters.agentPoolWin }}
             steps:
               - template: Templates/build/checkoutWin.yaml
                 parameters:
-                  buildType: ${{ parameters.buildType }}
+                  buildType_C: ${{ parameters.buildType_C }}
               - template: Templates/publish/publishWin.yaml
                 parameters:
-                  buildType: ${{ parameters.buildType }}
+                  buildType_C: ${{ parameters.buildType_C }}
                   setor: ${{ parameters.setor }}
