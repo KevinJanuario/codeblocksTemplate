@@ -117,7 +117,7 @@ steps:
         displayName: 'Dotnet Build'
         inputs:
           command: 'build'
-          projects: '**/*.${{ parameters.dotNetProjects }}'
+          projects: '**/*.csproj'
           modifyOutputPath: true
           arguments: '--output $(Artifact)-temp'
 
