@@ -6,6 +6,8 @@ parameters:
   - name: buildType
     default: ''
 
+variables:
+  system.debug: true
 
 steps:
   - ${{ if eq(parameters.buildType, 'c_windows') }}:
