@@ -63,8 +63,15 @@ steps:
 
             # Usar loop para tratar múltiplos arquivos, já que -InFile não suporta wildcard (*.dll)
             Get-ChildItem -Path $file | ForEach-Object {
-              Invoke-WebRequest -Uri "$(nexusHost)/repository/$repo/$($_.Name)" -Method Put -Headers @{
+              $result=Invoke-WebRequest -Uri "$(nexusHost)/repository/$repo/$($_.Name)" -Method Put -Headers @{
                   Authorization = "Basic $authInfo"
               } -InFile $_.FullName -UseBasicParsing
             }
+            if ($result.StatusCode -eq 201) {
+            Write-Host "  - $($artifact.FullName) Publicado com sucesso no repositório $repo!"
+            } else {
+                Write-Host "  [-] Falha ao publicar no repositório $repo - $($artifact.FullName)"
+                exit 1
+            }
+          }
         displayName: 'Deploy to Nexus'
