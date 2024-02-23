@@ -1,3 +1,4 @@
+---
 parameters:
   - name: buildTypeWindows
     default: 'c_windows'
@@ -104,12 +105,12 @@ steps:
 
   - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
       - powershell: |
-              $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
-              Write-Host "[+] Criando diretório $artifactPath"
-              New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
-              New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
-              Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
-              Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
+            $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
+            Write-Host "[+] Criando diretório $artifactPath"
+            New-Item -ItemType Directory -Path "$artifactPath\artifact\$(Build.Repository.Name)" -Force
+            New-Item -ItemType Directory -Path "$artifactPath-temp" -Force
+            Write-Host "##vso[task.setvariable variable=Artifact]$artifactPath"
+            Write-Host "##vso[task.setvariable variable=ArtifactTemp]$artifactPath-temp"
         displayName: CreateOutputDir
 
       - task: DotNetCoreCLI@2
