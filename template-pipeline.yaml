@@ -9,8 +9,6 @@ parameters:
     default: 'c'
   - name: buildTypeWindows
     default: 'c_windows'
-  - name: buildTypeC
-    default: 'dotnet_C'
   - name: agentPool
     default: Dev
   - name: agentPoolWin
@@ -108,15 +106,15 @@ stages:
                 parameters:
                   buildTypeWindows: ${{ parameters.buildTypeWindows }}
                   setor: ${{ parameters.setor }}
-      - ${{ if eq(parameters.buildTypeC, 'dotnet_C') }}:
+      - ${{ if eq(parameters.buildType, 'dotnet_C') }}:
           - job: Build_${{ parameters.buildTypeC }}
             pool:
               name: ${{ parameters.agentPoolWin }}
             steps:
               - template: Templates/build/checkoutWin.yaml
                 parameters:
-                  buildTypeC: ${{ parameters.buildTypeC }}
+                  buildType: ${{ parameters.buildType }}
               - template: Templates/publish/publishWin.yaml
                 parameters:
-                  buildTypeC: ${{ parameters.buildTypeC }}
+                  buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
