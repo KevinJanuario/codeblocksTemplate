@@ -43,7 +43,7 @@ steps:
 
       - task: DownloadBuildArtifacts@0
         inputs:
-          buildType_C: 'current'
+          buildType: 'current'
           downloadType: 'single'
           artifactName: '$(Build.Repository.Name)'
           downloadPath: '$(Artifact)'
