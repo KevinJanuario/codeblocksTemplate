@@ -1,7 +1,5 @@
 ---
 parameters:
-  # - name: buildTypeWindows
-  #   default: 'c_windows'
   - name: setor
   - name: buildType
     default: ''
