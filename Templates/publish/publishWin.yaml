@@ -73,5 +73,4 @@ steps:
                 Write-Host "  [-] Falha ao publicar no repositório $repo - $($artifact.FullName)"
                 exit 1
             }
-          }
         displayName: 'Deploy to Nexus'
