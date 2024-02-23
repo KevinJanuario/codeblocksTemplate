@@ -47,33 +47,33 @@ steps:
           artifactName: '$(Build.Repository.Name)-$(Build.BuildId)'
           downloadPath: '$(Artifact)'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Artifact)'
-        artifactName: 'artifact-${{ parameters.buildType }}'
-      condition: succeeded()
-      displayName: 'Publish Artifacts'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: '$(Artifact)'
+          artifactName: 'artifact-${{ parameters.buildType }}'
+        condition: succeeded()
+        displayName: 'Publish Artifacts'
     
-    - powershell: |
-        # Define variáveis
-        $repo = "$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
-        $art = Get-Item -LiteralPath $(Artifact)
+      - powershell: |
+          # Define variáveis
+          $repo = "$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)"
+          $art = Get-Item -LiteralPath $(Artifact)
 
-        # Itera sobre os artefatos
-        foreach ($artifact in Get-ChildItem -Path $art -File) {
-            $upload = $artifact.FullName.Substring($artifact.FullName.IndexOf("artifact\") + 9)
-            Write-Host "[+] File: $upload"
-            Write-Host "[+] Repo: $repo"
-            $uploadURL = "$(nexusOrg)/repository/$repo/$upload"
-            Write-Host "[!!] Upload URL: $uploadURL"
+          # Itera sobre os artefatos
+          foreach ($artifact in Get-ChildItem -Path $art -File) {
+              $upload = $artifact.FullName.Substring($artifact.FullName.IndexOf("artifact\") + 9)
+              Write-Host "[+] File: $upload"
+              Write-Host "[+] Repo: $repo"
+              $uploadURL = "$(nexusOrg)/repository/$repo/$upload"
+              Write-Host "[!!] Upload URL: $uploadURL"
 
-            # Executa a operação de upload
-            $result = Invoke-RestMethod -Uri $uploadURL -Method Put -Credential (Get-Credential -UserName $(nexusUser) -Password $(nexusPass)) -InFile $artifact.FullName
-            if ($result.StatusCode -eq 201) {
-                Write-Host "  - $($artifact.FullName) Publicado com sucesso no repositório $repo!"
-            } else {
-                Write-Host "  [-] Falha ao publicar no repositório $repo - $($artifact.FullName)"
-                exit 1
-            }
-        }
-      displayName: 'Deploy to Nexus'
+              # Executa a operação de upload
+              $result = Invoke-RestMethod -Uri $uploadURL -Method Put -Credential (Get-Credential -UserName $(nexusUser) -Password $(nexusPass)) -InFile $artifact.FullName
+              if ($result.StatusCode -eq 201) {
+                  Write-Host "  - $($artifact.FullName) Publicado com sucesso no repositório $repo!"
+              } else {
+                  Write-Host "  [-] Falha ao publicar no repositório $repo - $($artifact.FullName)"
+                  exit 1
+              }
+          }
+        displayName: 'Deploy to Nexus'
