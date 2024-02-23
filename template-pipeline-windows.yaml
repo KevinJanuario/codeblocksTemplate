@@ -5,9 +5,7 @@ parameters:
     default: true
   - name: enableCodeScan
     default: false
-  - name: buildType_C
-    default: 'dotnet_C'
-  - name: buildTypeWindows
+  - name: buildType
     default: 'c_windows'
   - name: agentPoolWin
     default: Default
@@ -52,31 +50,31 @@ stages:
                 name: ${{ parameters.agentPool }}
               steps:
                 - template: Templates/checks/slscan.yaml
-  - stage: BuildAndPushWindows_${{ parameters.buildTypeWindows }}
+  - stage: BuildAndPushWindows_${{ parameters.buildType }}
     jobs:
-      - ${{ if eq(parameters.buildTypeWindows, 'c_windows') }}:
-          - job: Build_${{ parameters.buildTypeWindows }}
+      - ${{ if eq(parameters.buildType, 'c_windows') }}:
+          - job: Build_${{ parameters.buildType }}
             pool:
               name: ${{ parameters.agentPoolWin }}
             steps:
               - template: Templates/build/checkoutWin.yaml
                 parameters:
-                  buildTypeWindows: ${{ parameters.buildTypeWindows }}
+                  buildType: ${{ parameters.buildType }}
                   Version: ${{ parameters.Version }}
                   Version32: ${{ parameters.Version32 }}
               - template: Templates/publish/publishWin.yaml
                 parameters:
-                  buildTypeWindows: ${{ parameters.buildTypeWindows }}
+                  buildTypeWindows: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
-      - ${{ if eq(parameters.buildType_C, 'dotnet_C') }}:
-          - job: Build_${{ parameters.buildType_C }}
+      - ${{ if ne(parameters.buildType, 'c_windows') }}:
+          - job: Build_${{ parameters.buildType }}
             pool:
               name: ${{ parameters.agentPoolWin }}
             steps:
               - template: Templates/build/checkoutWin.yaml
                 parameters:
-                  buildType_C: ${{ parameters.buildType_C }}
+                  buildType: ${{ parameters.buildType }}
               - template: Templates/publish/publishWin.yaml
                 parameters:
-                  buildType_C: ${{ parameters.buildType_C }}
+                  buildType: ${{ parameters.buildType }}
                   setor: ${{ parameters.setor }}
