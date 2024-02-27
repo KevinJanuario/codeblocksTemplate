@@ -77,7 +77,7 @@ steps:
       - bash: |
             cppcheck --enable=all --inconclusive --xml-version=2 --language=c++ --platform=unix64 --output-file=cppcheck_$(Build.Repository.Name).xml $(Build.SourcesDirectory)
             cp cppcheck_$(Build.Repository.Name).xml $(Artifact)
-          displayName: 'cppcheck_code'
+        displayName: 'cppcheck_code'
 
 
   - ${{ if eq(parameters.buildType, 'dotnet') }}:
