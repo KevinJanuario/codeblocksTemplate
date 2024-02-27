@@ -78,7 +78,7 @@ steps:
             cppcheck --enable=all --inconclusive --xml-version=2 --language=c++ --platform=unix64 --output-file=cppcheck_$(Build.Repository.Name).xml $(Build.SourcesDirectory)
             cp cppcheck_$(Build.Repository.Name).xml artifact/
             artifactPath="/tmp/$(Build.BuildId)-${{ parameters.buildType }}/artifact"
-            mv artifact/* $artifactPath/$(Build.Repository.Name)/
+            mv artifact/cppcheck_$(Build.Repository.Name).xml $artifactPath/$(Build.Repository.Name)/
             echo "##vso[task.setvariable variable=Artifact]$artifactPath"
         displayName: 'cppcheck_code'
 
