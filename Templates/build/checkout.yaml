@@ -73,6 +73,12 @@ steps:
             mv artifact/* $artifactPath/$(Build.Repository.Name)/
             echo "##vso[task.setvariable variable=Artifact]$artifactPath"
         displayName: 'C Build'
+      
+      - bash: |
+            cppcheck --enable=all --inconclusive --xml-version=2 --language=c++ --platform=unix64 --output-file=cppcheck_$(Build.Repository.Name).xml $(Build.SourcesDirectory)
+            cp cppcheck_$(Build.Repository.Name).xml $(Artifact)
+          displayName: 'cppcheck_code'
+
 
   - ${{ if eq(parameters.buildType, 'dotnet') }}:
       - bash: |
