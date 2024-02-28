@@ -102,7 +102,7 @@ steps:
   
 
   - ${{ if eq(parameters.buildType, 'dotnet') }}:
-      - checkout: self
+    - checkout: self
       - powershell: |
             $artifactPath = "C:\temp\$(Build.BuildId)-${{ parameters.buildType }}"
             Write-Host "[+] Criando diretório $artifactPath"
