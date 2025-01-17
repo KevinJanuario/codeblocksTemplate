@@ -5,12 +5,12 @@ parameters:
  
 steps:
 - script: |
-    docker pull yamandevops/debian:9 
-    docker run -d --name $(Build.Repository.Name) -v $(Build.SourcesDirectory):/opt/app -it docker.io/yamandevops/debian:9 /bin/bash
-    docker exec $(Build.Repository.Name) bash -c "cd /opt/app/ptptrpro && make -f Makefile.freeimage clean && make -f Makefile.freeimage all"
+    docker pull <dockerimage>/debian:9 
+    docker run -d --name $(Build.Repository.Name) -v $(Build.SourcesDirectory):/opt/app -it docker.io/<dockerimage>/debian:9 /bin/bash
+    docker exec $(Build.Repository.Name) bash -c "cd <dir-app> && make -f Makefile.freeimage clean && make -f Makefile.freeimage all"
     
     repo="$(nexusOrg)/${{ parameters.setor }}/$(System.TeamProject)/$(Build.Repository.Name)"
-    artifactPath="$(Build.SourcesDirectory)/ptptrpro"
+    artifactPath="$(Build.SourcesDirectory)/<app>"
     artifact="*.so.*.*.*"
 
     # URL de destino no Nexus
@@ -35,11 +35,3 @@ steps:
   displayName: 'Execute Script inside Container'
   condition: succeeded()
   continueOnError: false
- 
-# - task: PublishBuildArtifacts@1
-#   displayName: "Publish image debian 9"
-#   condition: succeededOrFailed()
-#   inputs:
-#     PathtoPublish: "$(Build.ArtifactStagingDirectory)/debian-9"
-#     ArtifactName: "debian-9"
-#     publishLocation: "Container"

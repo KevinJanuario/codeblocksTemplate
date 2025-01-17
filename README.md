@@ -22,7 +22,7 @@ resources:
   repositories:
     - repository: templates
       type: git
-      name: APIs/DevOps-Yaman
+      name: <project>/<repository>
 
 trigger:
   - 'main'
@@ -45,7 +45,7 @@ resources:
   repositories:
     - repository: templates
       type: git
-      name: APIs/DevOps-Yaman
+      name:  <project>/<repository>
 
 trigger:
   - 'main'
@@ -73,7 +73,7 @@ stages:
   - template: template-pipeline.yaml@templates
     parameters:
       buildType: csharp
-      vcxprojPath: 'Trunk/C-Fontes/VisualStudio/SensorBoard/SensorBoard/SensorBoard.vcxproj'
+      vcxprojPath: '<arquivo a ser compilado>>'
       # o vcxprojPath precisa apontar para o arquivo do projeto que será compilado
 ```
 # É importante mencionar que a Pipeline se autentica com o Nexus pelo grupo de variaveis chamado `Nexus` que esta na Library do projeto Azure Devops.

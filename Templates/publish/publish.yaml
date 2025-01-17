@@ -49,6 +49,6 @@ steps:
             exit 1
          fi
        done
-        #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/repository/perto/$artifact
+        #curl -u $(nexusUser):$(nexusPass) --upload-file $artifact $(nesusHost)/<url-path>
     displayName: 'Upload file to Nexus'
     condition: succeeded()
