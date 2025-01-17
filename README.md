@@ -13,7 +13,7 @@ Parametros enviados na pipeline por padrão:
   - name: dotNetProjects
     default: 'csproj'
 ```
-Se o seu projeto esta no padrão de APIs com os arquivos fontes em C no diretorio `C-Fontes`, e o artefato do seu projeto é gerar bibliotecas x86 e x64, basta importar o seguinte template:
+Se o seu projeto esta no padrão de APIs com os arquivos fontes em C no diretorio `<repo>`, e o artefato do seu projeto é gerar bibliotecas x86 e x64, basta importar o seguinte template:
 
 ```
 #azure-pipelines.yml
@@ -35,8 +35,8 @@ stages:
 
 ```
 
-# Esse template irá compilar, passar o repositorio no Sonar e enviar o artefato para o Nexus (http://10.3.5.117:8081)
- Os repositorios para Libs é o `perto-c`
+# Esse template irá compilar, passar o repositorio no Sonar e enviar o artefato para o Nexus (url-nexus)
+ Os repositorios para Libs é o `<repo-nexus>`
 
 # Se seu projeto é dotnet, pode utilizar o template da seguinte forma:
 ```
@@ -73,7 +73,7 @@ stages:
   - template: template-pipeline.yaml@templates
     parameters:
       buildType: csharp
-      vcxprojPath: '<arquivo a ser compilado>>'
+      vcxprojPath: '<arquivo a ser compilado>'
       # o vcxprojPath precisa apontar para o arquivo do projeto que será compilado
 ```
 # É importante mencionar que a Pipeline se autentica com o Nexus pelo grupo de variaveis chamado `Nexus` que esta na Library do projeto Azure Devops.
